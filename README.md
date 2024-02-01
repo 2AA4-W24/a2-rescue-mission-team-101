@@ -4,7 +4,7 @@
 - Authors:
   - [Savvy, Liu](liu1693@mcmaster.ca) 
   - [Varun, Pathak](pathav4@mcmaster.ca)
-  - [Firstname_3, Lastname_3](macid@mcmaster.ca)
+  - [Salma, Baig](baigs19@mcmaster.ca)
 
 ## Product Description
 
