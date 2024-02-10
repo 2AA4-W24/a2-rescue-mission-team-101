@@ -8,13 +8,13 @@ class TakeDecision{
     private final Logger logger = LogManager.getLogger();
 
     private JSONObject decision;
-    private String choice;
+    private String choice = "fly";
     public TakeDecision(JSONObject j){
         decision = j;
     }
 
     public String choice(){
-        decision.put("action", "fly"); // we stop the exploration immediately
+        decision.put("action", choice); // we stop the exploration immediately
         logger.info("** Decision: {}",decision.toString());
         logger.info("this is json" + decision.toString());
         return decision.toString();
