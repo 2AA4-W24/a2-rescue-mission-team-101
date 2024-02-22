@@ -1,6 +1,5 @@
 package ca.mcmaster.se2aa4.island.team101;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +13,7 @@ class TakeDecision{
     }
 
     public String choice(){
-        decision.put("action", choice); // we stop the exploration immediately
+        decision.put("action", choice); 
         logger.info("** Decision: {}",decision.toString());
         logger.info("this is json" + decision.toString());
         return decision.toString();
