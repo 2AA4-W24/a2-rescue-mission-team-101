@@ -9,6 +9,8 @@ public class JSONInitialization implements Initialization<JSONObject> {
     private String direction;
     private Integer batteryLevel;
 
+    public JSONInitialization(){}
+
     @Override
     public String toString(){
         if (info != null) {return "Initialization info:\n" + info.toString(2);} 

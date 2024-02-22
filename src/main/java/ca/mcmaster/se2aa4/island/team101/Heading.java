@@ -6,7 +6,11 @@ public class Heading {
     }
 
     // later initialize this to whatever is read from initialization
+    // not sure what format it reads it in might have to use a method to 
+    // pick the corresponding enum value to whatever is read from the json
     private Directions fwd = Directions.EAST;
+
+    public Heading(){}
 
     protected void turnRight() {
         fwd = Directions.values()[(fwd.ordinal() + 1) % 4];
