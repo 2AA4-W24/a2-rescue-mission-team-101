@@ -1,8 +1,8 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-public interface Initialization<T> {
+public interface Response<T> {
     String toString();
-    T getObject();
+    T getExtraInfo();
     String getDirection();
-    Integer getBatteryLevel();
+    Integer getCost();
 }

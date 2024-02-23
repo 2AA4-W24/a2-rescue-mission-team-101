@@ -6,10 +6,10 @@ import org.json.JSONTokener;
 
 public class JSONInitialization implements Initialization<JSONObject> {
     private JSONObject info;
-    private String direction;
-    private Integer batteryLevel;
 
-    public JSONInitialization(){}
+    public JSONInitialization(String data){
+        this.info = new JSONObject(new JSONTokener(new StringReader(data)));
+    }
 
     @Override
     public String toString(){
@@ -17,24 +17,19 @@ public class JSONInitialization implements Initialization<JSONObject> {
         else {return "No initialization info.";}
     }
 
-    @Override 
-    public void initialize(String data){
-        this.info = new JSONObject(new JSONTokener(new StringReader(data)));
-        this.direction = info.getString("heading");
-        this.batteryLevel = info.getInt("budget");
-    }
-
     @Override
     public JSONObject getObject(){
         return info;
     }
 
+    @Override
     public String getDirection(){
-        return direction;
+        return info.getString("heading");
     }
 
+    @Override
     public Integer getBatteryLevel(){
-        return batteryLevel;
+        return info.getInt("budget");
     }
 
 }
