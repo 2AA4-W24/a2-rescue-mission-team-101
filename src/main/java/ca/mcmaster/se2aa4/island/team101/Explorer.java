@@ -27,9 +27,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        String f = m.choice().toString();
-        m.setChoice("stop");
-        return f;
+        return m.choice().toString();
     }
 
     @Override
