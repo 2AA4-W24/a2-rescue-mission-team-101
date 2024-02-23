@@ -21,8 +21,8 @@ public class Explorer implements IExplorerRaid {
         initializer = new JSONInitialization(s);
         logger.info(initializer.toString());
         m = new TakeDecision(initializer.getObject());
-        //logger.info("The drone is facing {}", initializer.getDirection());
-        //logger.info("Battery level is {}", initializer.getBatteryLevel());
+        logger.info("The drone is facing {}", initializer.getDirection());
+        logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
