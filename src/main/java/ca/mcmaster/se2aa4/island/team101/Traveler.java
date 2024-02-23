@@ -1,7 +1,9 @@
 package ca.mcmaster.se2aa4.island.team101;
 
 public abstract class Traveler {
-    protected Heading heading = new Heading();
+    
+    protected Initialization initializer;
+    protected Heading heading;
     protected Radar radar = new Radar();
     protected PhotoScanner scanner = new PhotoScanner();
     protected String nextMoveStr;

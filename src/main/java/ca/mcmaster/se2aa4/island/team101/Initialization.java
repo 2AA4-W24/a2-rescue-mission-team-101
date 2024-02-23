@@ -5,4 +5,5 @@ public interface Initialization<T> {
     T getObject();
     String getDirection();
     Integer getBatteryLevel();
+    String getStatus();
 }
