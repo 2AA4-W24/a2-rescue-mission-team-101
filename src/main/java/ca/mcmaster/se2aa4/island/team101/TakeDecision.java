@@ -5,18 +5,22 @@ import org.apache.logging.log4j.Logger;
 
 class TakeDecision{
     private final Logger logger = LogManager.getLogger();
-
     private JSONObject decision;
     private String choice = "fly";
+    private int counter = 0;
     public TakeDecision(JSONObject j){
         decision = j;
     }
 
-    public String choice(){
-        decision.put("action", choice); 
+    public JSONObject choice(){
+        if (counter > 50){
+            decision.put("action", "stop"); 
+        } else{
+            decision.put("action", "fly"); 
+        }
         logger.info("** Decision: {}",decision.toString());
-        logger.info("this is json" + decision.toString());
-        return decision.toString();
+        counter +=1;
+        return decision;
     }
 
     public void setChoice(String choice){
