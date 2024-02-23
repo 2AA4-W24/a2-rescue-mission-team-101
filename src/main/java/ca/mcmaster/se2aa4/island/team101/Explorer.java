@@ -14,15 +14,17 @@ public class Explorer implements IExplorerRaid {
 
     private JSONInitialization initializer;
     private TakeDecision m;
+    private Drone drone;
     
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
         initializer = new JSONInitialization(s);
+        drone = new Drone(initializer);
         logger.info(initializer.toString());
         m = new TakeDecision(initializer.getObject());
-        logger.info("The drone is facing {}", initializer.getDirection());
-        logger.info("Battery level is {}", initializer.getBatteryLevel());
+        //logger.info("The drone is facing {}", initializer.getDirection());
+        //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
