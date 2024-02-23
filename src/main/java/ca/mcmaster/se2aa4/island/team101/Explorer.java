@@ -11,24 +11,24 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-
+    
+    private JSONInitialization initializer = new JSONInitialization();
+    private TakeDecision m = new TakeDecision(initializer.getObject());
+    
     @Override
     public void initialize(String s) {
-        logger.info("** Initializing the Exploration Command Center");
-        JSONObject info = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Initialization info:\n {}",info.toString(2));
-        String direction = info.getString("heading");
-        Integer batteryLevel = info.getInt("budget");
-        logger.info("The drone is facing {}", direction);
-        logger.info("Battery level is {}", batteryLevel);
+        logger.info(" Initializing the Exploration Command Center");
+        initializer.initialize(s); 
+        logger.info(initializer.toString());
+        //logger.info("The drone is facing {}", initializer.getDirection());
+        //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
     public String takeDecision() {
-        JSONObject decision = new JSONObject();
-        decision.put("action", "stop"); // we stop the exploration immediately
-        logger.info("** Decision: {}",decision.toString());
-        return decision.toString();
+        String f = m.choice();
+        m.setChoice("stop");
+        return f;
     }
 
     @Override
