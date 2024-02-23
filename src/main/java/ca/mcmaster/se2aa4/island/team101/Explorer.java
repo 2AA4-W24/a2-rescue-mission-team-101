@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private JSONInitialization initializer = new JSONInitialization();
+
     private JSONInitialization initializer;
     private TakeDecision m;
     
@@ -21,8 +21,8 @@ public class Explorer implements IExplorerRaid {
         initializer = new JSONInitialization(s);
         logger.info(initializer.toString());
         m = new TakeDecision(initializer.getObject());
-        //logger.info("The drone is facing {}", initializer.getDirection());
-        //logger.info("Battery level is {}", initializer.getBatteryLevel());
+        logger.info("The drone is facing {}", initializer.getDirection());
+        logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
