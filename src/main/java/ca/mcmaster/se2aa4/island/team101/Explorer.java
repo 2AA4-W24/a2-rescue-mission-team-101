@@ -20,8 +20,8 @@ public class Explorer implements IExplorerRaid {
         logger.info(" Initializing the Exploration Command Center");
         initializer.initialize(s); 
         logger.info(initializer.toString());
-        logger.info("The drone is facing {}", initializer.getDirection());
-        logger.info("Battery level is {}", initializer.getBatteryLevel());
+        //logger.info("The drone is facing {}", initializer.getDirection());
+        //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
