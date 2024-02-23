@@ -32,4 +32,9 @@ public class JSONInitialization implements Initialization<JSONObject> {
         return info.getInt("budget");
     }
 
+    @Override
+    public String getStatus(){
+        return info.getString("status");
+    }
+
 }

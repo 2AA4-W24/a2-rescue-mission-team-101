@@ -8,9 +8,12 @@ public class Heading {
     // later initialize this to whatever is read from initialization
     // not sure what format it reads it in might have to use a method to 
     // pick the corresponding enum value to whatever is read from the json
-    private Directions fwd = Directions.EAST;
+    private Directions fwd;
+    private JSONResponse response;
 
-    public Heading(){}
+    public Heading(String initialHeading){
+        setHeading(initialHeading);
+    }
 
     protected void turnRight() {
         fwd = Directions.values()[(fwd.ordinal() + 1) % 4];
@@ -23,5 +26,18 @@ public class Heading {
     protected void uTurn() {
         turnRight();
         turnRight();
+    }
+
+    public void setHeading(String heading){
+        switch (heading) {
+            case "N":
+                fwd = Directions.NORTH;
+            case "E":
+                fwd = Directions.EAST;
+            case "S":
+                fwd = Directions.SOUTH;
+            default:
+                fwd = Directions.WEST;
+        }
     }
 }
