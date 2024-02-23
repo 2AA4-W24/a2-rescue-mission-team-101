@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private JSONInitialization initializer = new JSONInitialization();
+
     private JSONInitialization initializer;
     private TakeDecision m;
     
@@ -27,7 +27,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        return m.choice().toString();
+        String f = m.choice();
+        m.setChoice("stop");
+        return f;
     }
 
     @Override
