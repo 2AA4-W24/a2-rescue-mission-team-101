@@ -13,22 +13,21 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     
     private JSONInitialization initializer = new JSONInitialization();
-    private TakeDecision m = new TakeDecision(initializer.getObject());
+    private TakeDecision m;
     
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
         initializer.initialize(s); 
         logger.info(initializer.toString());
+        m = new TakeDecision(initializer.getObject());
         //logger.info("The drone is facing {}", initializer.getDirection());
         //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
     public String takeDecision() {
-        String f = m.choice();
-        m.setChoice("stop");
-        return f;
+        return m.choice().toString();
     }
 
     @Override
