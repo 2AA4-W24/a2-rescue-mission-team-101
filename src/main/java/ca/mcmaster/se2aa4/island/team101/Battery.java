@@ -9,7 +9,7 @@ public class Battery {
     private JSONResponse response;
     
     public Battery(Integer initialBattery){ 
-        setCharge(initialBattery);
+        this.batteryLevel = initialBattery;
     }
 
     public int getCharge(){
@@ -17,7 +17,8 @@ public class Battery {
     }
 
     public void setCharge(int charge){
-        this.batteryLevel -= charge;
+        batteryLevel -= charge;
+        logger.info(" = {}", batteryLevel);
         if (batteryLevel <= 0){
             logger.info("*** Drone is dead. Womp Womp.");
             this.batteryLevel = 0;
