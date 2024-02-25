@@ -9,7 +9,7 @@ public class Battery {
     private JSONResponse response;
     
     public Battery(Integer initialBattery){ 
-        setCharge(initialBattery);
+        this.batteryLevel = initialBattery;
     }
 
     public int getCharge(){
