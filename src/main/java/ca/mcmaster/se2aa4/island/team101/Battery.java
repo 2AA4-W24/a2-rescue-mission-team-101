@@ -18,6 +18,7 @@ public class Battery {
 
     public void setCharge(int charge){
         batteryLevel -= charge;
+        logger.info(" = {}", batteryLevel);
         if (batteryLevel <= 0){
             logger.info("*** Drone is dead. Womp Womp.");
             this.batteryLevel = 0;

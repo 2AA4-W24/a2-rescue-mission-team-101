@@ -22,7 +22,6 @@ public class Drone extends Traveler {
 
     public void update(JSONResponse response){
         battery.setCharge(response.getCost());
-        //heading.setHeading(response.getDirection());
     }
 
     @Override
