@@ -1,21 +1,20 @@
 package ca.mcmaster.se2aa4.island.team101;
-import java.awt.Point; // might make calculations easier for distance when we wanna deal w it in drone
 import java.util.List; // keep it general ig
 import java.util.ArrayList;
 
 public class AreaMap {
-    private List<Point> creeks;
-    private Point emergencySite;
+    private List<String> creeks; //ids will be strings I suppose
+    private String emergencySite;
 
     public AreaMap(){
-        this.creeks = new ArrayList<Point>(); // implementing it as arraylist but methods will work if u choose to change it here
+        this.creeks = new ArrayList<String>(); // implementing it as arraylist but methods will work if u choose to change it here
     }
 
-    public List<Point> getCreeks(){
+    public List<String> getCreeks(){
         return creeks;
     }
 
-    public Point getEmergencySite(){
+    public String getEmergencySite(){
         return emergencySite;
     }
     // drone can use these when it calls a stop command

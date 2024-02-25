@@ -3,7 +3,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Drone extends Traveler {
-    private final Logger logger = LogManager.getLogger();
 
     private Battery battery;
     private EmergencyDetector emergency;
@@ -18,16 +17,17 @@ public class Drone extends Traveler {
 
     }
 
-    public void update(JSONResponse response){
-        battery.setCharge(response.getCost());
-    }
-
     @Override
     public void setNextMove(){
         // should do the algorithm however by calling decide on the airdecision
         // then this just assigns it to the nextmovestr which is returned in the getNextMove
         // in traveler parent
         nextMoveStr = nextMove.decide();
+    }
+
+    // maybe move it to traveler instead? 
+    public void update(JSONResponse response){
+        battery.setCharge(response.getCost());
     }
 
     public Battery getBattery(){
