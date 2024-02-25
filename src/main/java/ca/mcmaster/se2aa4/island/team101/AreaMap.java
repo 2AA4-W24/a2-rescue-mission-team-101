@@ -8,6 +8,15 @@ public class AreaMap {
 
     public AreaMap(){
         this.creeks = new ArrayList<String>(); // implementing it as arraylist but methods will work if u choose to change it here
+        // idk if this is a stupid idea or not or if we should just put it as an arraylist from the start here
+    }
+
+    public void addCreek(String creekID){
+        creeks.add(creekID);
+    }
+
+    public void setEmergencySite(String emergencySiteID){
+        emergencySite = emergencySiteID;
     }
 
     public List<String> getCreeks(){

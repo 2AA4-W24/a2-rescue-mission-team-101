@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.island.team101;
 
 public abstract class Decision {
     protected Traveler traveler;
+    protected EmergencyDetector emergency;
 
     // so that the command strings can be easily changed if the string to do whichever action
     // changes, might need to add more not sure all the available commands

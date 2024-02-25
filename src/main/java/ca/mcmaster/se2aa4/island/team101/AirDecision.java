@@ -13,6 +13,7 @@ public class AirDecision extends Decision {
     @Override
     public String decide() {
         // commands from decision can be used here with FLY, ECHO, etc.
+        // check the emergencydetector methods to see if its gonna go MIA, and why, and adjust accordingly
         return "fly";
     }
 }
