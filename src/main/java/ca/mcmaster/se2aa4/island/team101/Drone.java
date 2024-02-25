@@ -8,12 +8,10 @@ public class Drone extends Traveler {
     private Battery battery;
     private EmergencyDetector emergency;
     private AirDecision nextMove;
-    private Heading heading;
 
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         battery = new Battery(initializer.getBatteryLevel()); //drone battery initialized to initial battery
-        heading = new Heading(initializer.getDirection()); // drone heading initialized to initial heading
         //emergency = new EmergencyDetector(initializer.getStatus()); // emergency detector initialized to hold initial status
 
         this.nextMove = new AirDecision(this);
@@ -39,5 +37,7 @@ public class Drone extends Traveler {
     public EmergencyDetector getEmergency(){
         return emergency;
     }
+
+    // how should we return the closest creek? as a point?
 
 }
