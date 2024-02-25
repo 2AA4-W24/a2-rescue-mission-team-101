@@ -4,6 +4,7 @@ public class Drone extends Traveler {
     private Battery battery;
     private EmergencyDetector emergency;
     private AirDecision nextMove;
+    private Heading heading;
 
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
@@ -12,6 +13,11 @@ public class Drone extends Traveler {
         emergency = new EmergencyDetector(initializer.getStatus()); // emergency detector initialized to hold initial status
 
         this.nextMove = new AirDecision(this);
+    }
+
+    public void update(JSONResponse response){
+        battery.setCharge(response.getCost());
+        heading.setHeading(response.getDirection());
     }
 
     @Override
