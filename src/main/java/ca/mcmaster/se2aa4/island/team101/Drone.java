@@ -1,6 +1,10 @@
 package ca.mcmaster.se2aa4.island.team101;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Drone extends Traveler {
+    private final Logger logger = LogManager.getLogger();
+
     private Battery battery;
     private EmergencyDetector emergency;
     private AirDecision nextMove;
@@ -10,14 +14,15 @@ public class Drone extends Traveler {
         this.initializer = initializer;
         battery = new Battery(initializer.getBatteryLevel()); //drone battery initialized to initial battery
         heading = new Heading(initializer.getDirection()); // drone heading initialized to initial heading
-        emergency = new EmergencyDetector(initializer.getStatus()); // emergency detector initialized to hold initial status
+        //emergency = new EmergencyDetector(initializer.getStatus()); // emergency detector initialized to hold initial status
 
         this.nextMove = new AirDecision(this);
+
     }
 
     public void update(JSONResponse response){
         battery.setCharge(response.getCost());
-        heading.setHeading(response.getDirection());
+        //heading.setHeading(response.getDirection());
     }
 
     @Override
