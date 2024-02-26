@@ -23,7 +23,7 @@ public class AirDecision extends Decision {
         // not sure how to return strings for turning...maybe need to change heading logic to work
         // with however you turn in this, if there's a command to turn n/e/s/w, instead of DIY turning
         // then those commands could be an option to return from here + add to String list in decision
-        if (counter > 1000 || drone.getExtraInfo().toString().equals()){
+        if (counter > 1000){
             // just for the mvp, it checks for land and returns home immediately
             // ideally, this is put into a method, but since its just temporary, itl just be done in the if statement
             // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
