@@ -14,6 +14,7 @@ public class Explorer implements IExplorerRaid {
 
     private JSONInitialization initializer;
     private TakeDecision m;
+    private AirDecision ad;
     private Drone drone;
     
     @Override
@@ -23,13 +24,14 @@ public class Explorer implements IExplorerRaid {
         drone = new Drone(initializer);
         logger.info(initializer.toString());
         m = new TakeDecision(initializer.getObject());
+        ad = new AirDecision(drone);
         //logger.info("The drone is facing {}", initializer.getDirection());
         //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
     public String takeDecision() {
-        return m.choice().toString();
+        return ad.decide();
     }
 
     @Override
