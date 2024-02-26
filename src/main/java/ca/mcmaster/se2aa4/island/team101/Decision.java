@@ -8,9 +8,9 @@ public abstract class Decision {
     // changes, might need to add more not sure all the available commands
     protected static final String FLY = "fly";
     protected static final String STOP = "stop";
+    protected static final String HEADING = "heading";
     protected static final String ECHO = "echo";
     protected static final String SCAN = "scan";
-    protected static final String HEADING = "heading";
 
     public Decision(Traveler traveler) {
         this.traveler = traveler;

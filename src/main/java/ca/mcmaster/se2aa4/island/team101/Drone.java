@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 public class Drone extends Traveler {
 
     private final Logger logger = LogManager.getLogger(Drone.class);
-
     private Integer charge;
     private AirDecision nextMove;
 
@@ -22,7 +21,8 @@ public class Drone extends Traveler {
     }
 
     // should sweep and update everything like heading battery etc
-    public void update(JSONResponse response){
+    @Override
+    public void update(Response response){
         setCharge(response.getCost());
     }
 
@@ -31,7 +31,7 @@ public class Drone extends Traveler {
         return charge;
     }
 
-    public void setCharge(int cost){
+    public void setCharge(Integer cost){
         charge -= cost;
         logger.info(" = {}", charge);
         if (charge <= 0){
