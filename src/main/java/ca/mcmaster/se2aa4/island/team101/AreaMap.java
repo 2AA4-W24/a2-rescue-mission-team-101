@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class AreaMap {
     private List<String> creeks; //ids will be strings I suppose
     private String emergencySite;
+    private Tile[][] map;
 
     public AreaMap(){
         this.creeks = new ArrayList<String>(); // implementing it as arraylist but methods will work if u choose to change it here
