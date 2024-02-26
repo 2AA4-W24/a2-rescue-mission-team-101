@@ -22,10 +22,6 @@ public class JSONResponse implements Response<JSONObject>{
         return response.getJSONObject("extras");
     }
 
-    @Override
-    public String getDirection(){
-        return response.getString("heading");
-    }
 
     public Integer getCost(){
         return response.getInt("cost");
