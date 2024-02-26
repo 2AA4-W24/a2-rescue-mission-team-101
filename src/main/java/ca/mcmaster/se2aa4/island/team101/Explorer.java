@@ -9,7 +9,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private JSONInitialization initializer;
-    private TakeDecision m;
     private AirDecision ad;
     private Drone drone;
     
@@ -19,7 +18,6 @@ public class Explorer implements IExplorerRaid {
         initializer = new JSONInitialization(s);
         logger.info(initializer.toString());
         drone = new Drone(initializer);
-        m = new TakeDecision(initializer.getObject());
         ad = new AirDecision(drone);
         //logger.info("The drone is facing {}", initializer.getDirection());
         //logger.info("Battery level is {}", initializer.getBatteryLevel());
@@ -32,17 +30,10 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public void acknowledgeResults(String s) {
-        /*
-        JSONObject response = new JSONObject(new JSONTokener(new StringReader(s)));
-        logger.info("** Response received:\n"+response.toString(2));
-        Integer cost = response.getInt("cost");
-        logger.info("The cost of the action was {}", cost);
-        String status = response.getString("status");   
-        logger.info("The status of the drone is {}", status);
-        JSONObject extraInfo = response.getJSONObject("extras");
-        logger.info("Additional information received: {}", extraInfo);
-        */
         JSONResponse response = new JSONResponse(s);
+        logger.info("** Response received:\n"+response.toString());
+        logger.info("The cost of the action was {}", response.getCost());
+        logger.info("Additional information received: {}", response.getExtraInfo());
         drone.update(response);
     }
 
