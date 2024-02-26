@@ -21,7 +21,8 @@ public class Drone extends Traveler {
     }
 
     // should sweep and update everything like heading battery etc
-    public void update(JSONResponse response){
+    @Override
+    public void update(Response response){
         setCharge(response.getCost());
     }
 

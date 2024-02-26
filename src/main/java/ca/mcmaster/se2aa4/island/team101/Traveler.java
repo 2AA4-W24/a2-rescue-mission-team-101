@@ -14,4 +14,6 @@ public abstract class Traveler {
 
     public abstract void setNextMove();
 
+    public abstract void update(Response response);
+
 }

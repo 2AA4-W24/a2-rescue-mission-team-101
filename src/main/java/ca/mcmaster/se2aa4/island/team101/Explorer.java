@@ -42,6 +42,9 @@ public class Explorer implements IExplorerRaid {
         logger.info("Additional information received: {}", extraInfo);
         */
         JSONResponse response = new JSONResponse(s);
+        logger.info("** Response received:\n"+response.toString());
+        logger.info("The cost of the action was {}", response.getCost());
+        logger.info("Additional information received: {}", response.getExtraInfo());
         drone.update(response);
     }
 
