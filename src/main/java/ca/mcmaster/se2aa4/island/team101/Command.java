@@ -2,11 +2,11 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.json.JSONObject;
 
 public class Command {
-    protected static final String FLY = "fly";
-    protected static final String STOP = "stop";
-    protected static final String HEADING = "heading";
-    protected static final String ECHO = "echo";
-    protected static final String SCAN = "scan";
+    private static final String FLY = "fly";
+    private static final String STOP = "stop";
+    private static final String HEADING = "heading";
+    private static final String ECHO = "echo";
+    private static final String SCAN = "scan";
 
     private JSONObject command = new JSONObject(); // where we .put() to
     private JSONObject parameters = new JSONObject(); // for passing parameters into command
