@@ -15,12 +15,12 @@ public class Command {
 
     // Ex. { "action": "fly" }
     public void fly(){
-        command.put("action", "fly");
+        command.put("action", FLY);
     }
 
     // Ex. { "action": "stop" }
     public void stop(){
-        command.put("action", "stop");
+        command.put("action", STOP);
     }
 
     // Ex. { "action": "heading", "parameters": { "direction": "N" } }
@@ -39,7 +39,7 @@ public class Command {
     
     // Ex. { "action": "scan" }
     public void scan(){
-        command.put("action", "scan");
+        command.put("action", SCAN);
     }
 
     // to use in Decision logic
