@@ -22,7 +22,6 @@ public class JSONResponse implements Response<JSONObject>{
         return response.getJSONObject("extras");
     }
 
-
     public Integer getCost(){
         return response.getInt("cost");
     }
