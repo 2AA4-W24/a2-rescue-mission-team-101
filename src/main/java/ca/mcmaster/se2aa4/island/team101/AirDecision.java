@@ -4,9 +4,18 @@ import org.json.JSONObject;
 
 public class AirDecision extends Decision {
     private Drone drone;   
-    private JSONObject decision = new JSONObject();
-    private int counter = 0;
+    //private JSONObject decision = new JSONObject();
 
+    // Command object
+    Command command = new Command();
+
+    // Don't wanna hard code the strings in for parameter passing
+    protected static final String NORTH = "N";
+    protected static final String EAST = "E";
+    protected static final String SOUTH = "S";
+    protected static final String WEST = "W";
+
+    private int counter = 0;
 
     // use getters from drone to get other relevant info/objects for decision logic
     // should only need emergency detector and battery through drone
@@ -27,21 +36,23 @@ public class AirDecision extends Decision {
             // just for the mvp, it checks for land and returns home immediately
             // ideally, this is put into a method, but since its just temporary, itl just be done in the if statement
             // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
-            decision.put("action", "stop"); 
+            //decision.put("action", "stop"); 
+            command.stop();
         } else{
             if (counter % 2 == 0){
-                JSONObject parameters = new JSONObject();
+                //JSONObject parameters = new JSONObject();
                 // temporarily set direction as E, need to determine the correct echo direction later
-                parameters.put("direction", "E");
-                decision.put("action", ECHO);
-                decision.put("parameters", parameters);
+                //parameters.put("direction", "E");
+                //decision.put("action", ECHO);
+                //decision.put("parameters", parameters);
+                command.echo(EAST); 
             }
             else {
-                decision.put("action", FLY); 
+                command.fly();
             }
         }
         counter += 1;
-        return decision.toString();
+        return command.toString();
     }
 }
 
