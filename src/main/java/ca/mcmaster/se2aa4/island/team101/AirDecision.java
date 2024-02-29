@@ -9,12 +9,6 @@ public class AirDecision extends Decision {
     // Command object
     Command command = new Command();
 
-    // Don't wanna hard code the strings in for parameter passing
-    protected static final String NORTH = "N";
-    protected static final String EAST = "E";
-    protected static final String SOUTH = "S";
-    protected static final String WEST = "W";
-
     private int counter = 0;
 
     // use getters from drone to get other relevant info/objects for decision logic
