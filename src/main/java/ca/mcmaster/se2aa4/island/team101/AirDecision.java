@@ -8,12 +8,7 @@ public class AirDecision extends Decision {
 
     // Command object
     Command command = new Command();
-
-    // Don't wanna hard code the strings in for parameter passing
-    protected static final String NORTH = "N";
-    protected static final String EAST = "E";
-    protected static final String SOUTH = "S";
-    protected static final String WEST = "W";
+    Response response; // will be initialized accordidng to type -> using polymorphism
 
     private int counter = 0;
 
@@ -52,6 +47,7 @@ public class AirDecision extends Decision {
             }
         }
         counter += 1;
+        // add a switch case for the command object and depending on what its holding grab a response
         return command.toString();
     }
 }

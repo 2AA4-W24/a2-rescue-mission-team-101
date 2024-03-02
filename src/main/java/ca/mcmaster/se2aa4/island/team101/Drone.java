@@ -22,7 +22,7 @@ public class Drone extends Traveler {
 
     // should sweep and update everything like heading battery etc
     @Override
-    public void update(Response response){
+    public void update(Response response){ // is it bad to do this
         setCharge(response.getCost());
     }
 
