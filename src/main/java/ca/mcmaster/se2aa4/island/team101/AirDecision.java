@@ -8,6 +8,7 @@ public class AirDecision extends Decision {
 
     // Command object
     Command command = new Command();
+    Response response; // will be initialized accordidng to type -> using polymorphism
 
     private int counter = 0;
 
@@ -46,6 +47,7 @@ public class AirDecision extends Decision {
             }
         }
         counter += 1;
+        // add a switch case for the command object and depending on what its holding grab a response
         return command.toString();
     }
 }

@@ -7,9 +7,11 @@ import org.json.JSONTokener;
 
 public class JSONResponse implements Response<JSONObject>{
     private JSONObject response;
+    protected JSONObject extras;
 
     public JSONResponse(String data){
         this.response = new JSONObject(new JSONTokener(new StringReader(data)));
+        this.extras = response.getJSONObject("extras"); // Initialize the extras field
     }
 
     @Override
@@ -18,10 +20,6 @@ public class JSONResponse implements Response<JSONObject>{
     }
 
     @Override
-    public JSONObject getExtraInfo(){
-        return response.getJSONObject("extras");
-    }
-
     public Integer getCost(){
         return response.getInt("cost");
     }

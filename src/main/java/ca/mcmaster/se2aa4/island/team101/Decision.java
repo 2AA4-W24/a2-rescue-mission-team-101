@@ -5,6 +5,7 @@ public abstract class Decision {
     protected EmergencyDetector emergency;
 
     // Don't wanna hard code the strings in for parameter passing
+    // maybe kinda odd to have these here idk could be better organized????
     protected static final String NORTH = "N";
     protected static final String EAST = "E";
     protected static final String SOUTH = "S";
