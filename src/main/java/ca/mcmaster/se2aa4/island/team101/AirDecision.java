@@ -9,6 +9,7 @@ public class AirDecision extends Decision {
     // Command object
     Command command = new Command();
     Response response; // will be initialized accordidng to type -> using polymorphism
+    Compass direction = new Compass(); //NEED TO INITIALIZE HEADING
 
     private int counter = 0;
 
