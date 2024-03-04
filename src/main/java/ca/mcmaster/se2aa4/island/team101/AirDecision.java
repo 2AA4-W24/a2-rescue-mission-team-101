@@ -5,13 +5,17 @@ import org.json.JSONObject;
 public class AirDecision extends Decision {
     private Drone drone;   
     //private JSONObject decision = new JSONObject();
-
+    private static final String FLY = "fly";
+    private static final String STOP = "stop";
+    private static final String HEADING = "heading";
+    private static final String ECHO = "echo";
+    private static final String SCAN = "scan";
     // Command object
     Command command = new Command();
-    Response response; // will be initialized accordidng to type -> using polymorphism
+    
 
     private int counter = 0;
-
+    private String lastCommand; 
     // use getters from drone to get other relevant info/objects for decision logic
     // should only need emergency detector and battery through drone
     // commands cover everything else i think
@@ -27,7 +31,7 @@ public class AirDecision extends Decision {
         // not sure how to return strings for turning...maybe need to change heading logic to work
         // with however you turn in this, if there's a command to turn n/e/s/w, instead of DIY turning
         // then those commands could be an option to return from here + add to String list in decision
-        if (counter > 1000){
+        if (counter > 20){
             // just for the mvp, it checks for land and returns home immediately
             // ideally, this is put into a method, but since its just temporary, itl just be done in the if statement
             // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
@@ -41,8 +45,10 @@ public class AirDecision extends Decision {
                 //decision.put("action", ECHO);
                 //decision.put("parameters", parameters);
                 command.echo(EAST); 
+                lastCommand = "echo";
             }
             else {
+                lastCommand = "fly";
                 command.fly();
             }
         }

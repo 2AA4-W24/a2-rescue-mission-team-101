@@ -1,16 +1,20 @@
 package ca.mcmaster.se2aa4.island.team101;
 import java.util.List; // keep it general ig
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AreaMap {
     private List<String> creeks; //ids will be strings I suppose
     private String emergencySite;
-    private Tile[][] map;
-
+    List<String> rows = new ArrayList<String>();
+    HashMap<Integer, ArrayList> map = new HashMap<Integer, ArrayList>();
+    
     public AreaMap(){
         this.creeks = new ArrayList<String>(); // implementing it as arraylist but methods will work if u choose to change it here
         // idk if this is a stupid idea or not or if we should just put it as an arraylist from the start here
     }
+
+
 
     public void addCreek(String creekID){
         creeks.add(creekID);
