@@ -12,7 +12,8 @@ public class AirDecision extends Decision {
     private static final String SCAN = "scan";
     // Command object
     Command command = new Command();
-    
+    Response response; // will be initialized accordidng to type -> using polymorphism
+    Compass direction = new Compass(); //NEED TO INITIALIZE HEADING    
 
     private int counter = 0;
     private String lastCommand; 
