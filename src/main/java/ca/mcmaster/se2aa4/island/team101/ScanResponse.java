@@ -1,9 +1,6 @@
 package ca.mcmaster.se2aa4.island.team101;
-
 import java.util.List;
-
 import org.json.JSONArray;
-
 import java.util.ArrayList;
 
 public class ScanResponse extends JSONResponse {
