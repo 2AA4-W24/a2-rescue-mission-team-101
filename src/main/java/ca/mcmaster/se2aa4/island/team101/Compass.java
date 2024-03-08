@@ -8,6 +8,8 @@ public class Compass {
     protected static final String EAST = "E";
     protected static final String SOUTH = "S";
     protected static final String WEST = "W";
+    private integer y=0;
+    private integer x=0;
 
     /*
     public Compass(String init_direction){      // INITIALIZE HEADING HERE
@@ -19,12 +21,16 @@ public class Compass {
         switch (direction){
             case NORTH:
                 direction = WEST;
+                x--;
             case SOUTH:
                 direction = EAST;
+                x++;
             case EAST:
                 direction = NORTH;
+                y++;
             case WEST:
                 direction = SOUTH;
+                y--;
         }
         return direction;
     }
@@ -33,12 +39,16 @@ public class Compass {
         switch (direction){
             case NORTH:
                 direction = EAST;
+                x++;
             case SOUTH:
                 direction = WEST;
+                x--;
             case EAST:
                 direction = SOUTH;
+                y--;
             case WEST:
                 direction = NORTH;
+                y++;
         }
         return direction;
     }
