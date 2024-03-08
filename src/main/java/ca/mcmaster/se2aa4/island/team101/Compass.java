@@ -8,8 +8,8 @@ public class Compass {
     protected static final String EAST = "E";
     protected static final String SOUTH = "S";
     protected static final String WEST = "W";
-    private integer y=0;
-    private integer x=0;
+    private static int y=0;
+    private static int x=0;
 
     /*
     public Compass(String init_direction){      // INITIALIZE HEADING HERE
