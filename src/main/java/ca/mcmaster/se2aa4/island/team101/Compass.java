@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.island.team101;
 import java.awt.Point;
 
 public class Compass {
-
     private String direction;
 
     protected static final String NORTH = "N";
@@ -15,7 +14,7 @@ public class Compass {
     }
 
     // this is for updating the internal coordinate when you turn
-    
+
     // this is odd because of the way it turns; it doesnt just turn
     // on the spot, it kinda ends up diagonal to wherever it was.
     // it goes fwd, then turns on the spot, then fwd one more time.
