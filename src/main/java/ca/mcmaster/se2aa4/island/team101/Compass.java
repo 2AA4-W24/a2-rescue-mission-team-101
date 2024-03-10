@@ -1,4 +1,5 @@
 package ca.mcmaster.se2aa4.island.team101;
+import java.awt.Point;
 
 public class Compass {
 
@@ -9,52 +10,46 @@ public class Compass {
     protected static final String SOUTH = "S";
     protected static final String WEST = "W";
     
-    private static int y=0;
-    private static int x=0;
-
-    
     public Compass(String init_direction){      
         this.direction = init_direction;
     }
+
+    // this is for updating the internal coordinate when you turn
     
+    // this is odd because of the way it turns; it doesnt just turn
+    // on the spot, it kinda ends up diagonal to wherever it was.
+    // it goes fwd, then turns on the spot, then fwd one more time.
+    public Point turn(Point p, String newHeading){
+        // goes one fwd from where it was
+        advance(p);
+        // change direction to whatever 
+        direction = newHeading;
+        // then goes one forward from there
+        advance(p);
+        return p;
+    }
 
-    public String left(){
-        switch (direction){
+    // this is for updating the internal coordinate when u fly forward
+    public Point advance(Point p){
+        switch(direction){
             case NORTH:
-                direction = WEST;
-                x--;
-            case SOUTH:
-                direction = EAST;
-                x++;
+                p.y--;
+                break;
             case EAST:
-                direction = NORTH;
-                y++;
-            case WEST:
-                direction = SOUTH;
-                y--;
+                p.x++;
+                break;
+            case SOUTH:
+                p.y++;
+                break;
+            default:
+                p.x--;
+                break;
         }
+        return p;
+    }
+
+    public String getDirection(){
         return direction;
     }
 
-    public String right(){
-        switch (direction){
-            case NORTH:
-                direction = EAST;
-                x++;
-            case SOUTH:
-                direction = WEST;
-                x--;
-            case EAST:
-                direction = SOUTH;
-                y--;
-            case WEST:
-                direction = NORTH;
-                y++;
-        }
-        return direction;
-    }
-
-    public String forward(){
-        return direction;
-    }
 }
