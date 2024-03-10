@@ -8,8 +8,8 @@ public class AreaMap {
     private List<String> creeks; //ids will be strings I suppose
     private String emergencySite;
     List<String> rows = new ArrayList<String>();
-    HashMap<Point, String> map = new HashMap<Point, String>();
-    
+    HashMap<Point, Tile> map = new HashMap<Point, Tile>();
+
     public AreaMap(){
         this.creeks = new ArrayList<String>(); // implementing it as arraylist but methods will work if u choose to change it here
         // idk if this is a stupid idea or not or if we should just put it as an arraylist from the start here
