@@ -3,22 +3,19 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.Point;
-
 public class Drone extends Traveler {
 
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
     private AirDecision nextMove;
     private Compass compass;
-    private Point position;
+    private AreaMap map;
 
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
-        this.nextMove = new AirDecision(this);
+        this.nextMove = new AirDecision(this); // this is weird idk if there's another way
         this.compass = new Compass(initializer.getDirection());
-        this.position = new Point(0, 0);
     }
 
     @Override
@@ -27,9 +24,17 @@ public class Drone extends Traveler {
     }
 
     // should sweep and update everything like heading battery etc
+    // we might wanna scan every tile.
     @Override
     public void update(Response response){ 
         setCharge(response.getCost());
+        // only update the map if it was a scanresponse
+        if (response instanceof ScanResponse) {
+            // the Point coordinate of the drone is held and maintained in the compass. 
+            // it grabs it in here to update the map
+            map.updateMap(compass.getPosition(), (ScanResponse)response);
+        }
+        // need to update the compass somehow 
     }
 
     // Battery stuff
@@ -37,7 +42,7 @@ public class Drone extends Traveler {
         return charge;
     }
 
-    public void setCharge(Integer cost){
+    private void setCharge(Integer cost){
         charge -= cost;
         logger.info(" = {}", charge);
         if (charge <= 0){

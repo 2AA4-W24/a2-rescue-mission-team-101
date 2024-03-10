@@ -3,6 +3,7 @@ import java.awt.Point;
 
 public class Compass {
     private String direction;
+    private Point position;
 
     protected static final String NORTH = "N";
     protected static final String EAST = "E";
@@ -11,6 +12,7 @@ public class Compass {
     
     public Compass(String init_direction){      
         this.direction = init_direction;
+        position = new Point(0,0);
     }
 
     // this is for updating the internal coordinate when you turn
@@ -18,7 +20,9 @@ public class Compass {
     // this is odd because of the way it turns; it doesnt just turn
     // on the spot, it kinda ends up diagonal to wherever it was.
     // it goes fwd, then turns on the spot, then fwd one more time.
-    public Point turn(Point p, String newHeading){
+    private Point turn(Point p, String newHeading){
+        // maybe add in here some kind of protection against a bad command that would flip it
+
         // goes one fwd from where it was
         advance(p);
         // change direction to whatever 
@@ -29,7 +33,7 @@ public class Compass {
     }
 
     // this is for updating the internal coordinate when u fly forward
-    public Point advance(Point p){
+    private Point advance(Point p){
         switch(direction){
             case NORTH:
                 p.y--;
@@ -45,6 +49,18 @@ public class Compass {
                 break;
         }
         return p;
+    }
+
+    public void turn(String newHeading){
+        position = turn(position, newHeading);
+    }
+
+    public void advance(){
+        position = advance(position);
+    }
+
+    public Point getPosition(){
+        return position;
     }
 
     public String getDirection(){

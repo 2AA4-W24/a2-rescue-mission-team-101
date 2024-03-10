@@ -17,7 +17,7 @@ public class Tile {
         this.creekID = creekID;
     }
 
-    public String getEmergencySiteID(){
+    public String getSiteID(){
         return siteID;
     }
 
@@ -25,7 +25,7 @@ public class Tile {
         this.siteID = siteID;
     }
 
-    public void updateTile(ScanResponse scanResponse) {
+    public void fillTile(ScanResponse scanResponse) {
         String newCreekID = scanResponse.getCreek();
         if (!newCreekID.isEmpty()) {
             this.creekID = newCreekID;
