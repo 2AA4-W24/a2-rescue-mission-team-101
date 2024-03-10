@@ -8,11 +8,13 @@ public class Drone extends Traveler {
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
     private AirDecision nextMove;
+    private Compass compass;
 
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
         this.nextMove = new AirDecision(this);
+        this.compass = new Compass(initializer.getDirection());
     }
 
     @Override
@@ -22,8 +24,12 @@ public class Drone extends Traveler {
 
     // should sweep and update everything like heading battery etc
     @Override
-    public void update(Response response){ // is it bad to do this
+    public void update(Response response){ 
         setCharge(response.getCost());
+    }
+
+    public Compass getCompass(){
+        return compass;
     }
 
     // Battery stuff

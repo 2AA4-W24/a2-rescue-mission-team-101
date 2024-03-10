@@ -8,14 +8,15 @@ public class Compass {
     protected static final String EAST = "E";
     protected static final String SOUTH = "S";
     protected static final String WEST = "W";
+    
     private static int y=0;
     private static int x=0;
 
-    /*
-    public Compass(String init_direction){      // INITIALIZE HEADING HERE
+    
+    public Compass(String init_direction){      
         this.direction = init_direction;
     }
-    */
+    
 
     public String left(){
         switch (direction){
