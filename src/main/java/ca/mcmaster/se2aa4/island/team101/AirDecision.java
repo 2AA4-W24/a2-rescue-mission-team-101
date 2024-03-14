@@ -47,5 +47,8 @@ public class AirDecision extends Decision {
         // add a switch case for the command object and depending on what its holding grab a response
         return command.toString();
     }
+    // create an algorithm that checks where the island is. 
+    // incorporate right hand rule. Fly straight but if out of range turn right until scan is not out of range
+    // fly forward, if back at the same spot, randomly turn right
 }
 

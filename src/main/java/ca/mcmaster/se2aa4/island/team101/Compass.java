@@ -54,6 +54,31 @@ public class Compass {
     public void turn(String newHeading){
         position = turn(position, newHeading);
     }
+    public String getRight(){
+        switch(direction){
+            case NORTH:
+                return EAST;
+            case EAST:
+                return SOUTH;
+            case SOUTH:
+                return WEST;
+            default:
+                return NORTH;
+        }
+    }
+
+    public String getLeft(){
+        switch(direction){
+            case NORTH:
+                return WEST;
+            case EAST:
+                return NORTH;
+            case SOUTH:
+                return EAST;
+            default:
+                return SOUTH;
+        }
+    }
 
     public void advance(){
         position = advance(position);
