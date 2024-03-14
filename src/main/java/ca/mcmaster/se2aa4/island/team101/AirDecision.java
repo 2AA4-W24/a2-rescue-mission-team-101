@@ -8,10 +8,9 @@ public class AirDecision extends Decision {
 
     // Command object
     Command command = new Command();
-    EchoResponse response = (EchoResponse)drone.getResponse(); // will be initialized accordidng to type -> using polymorphism
+    EchoResponse response = new EchoResponse(); // will be initialized accordidng to type -> using polymorphism
     Compass compass = drone.getCompass();
     private int counter = 0;
-    private String lastCommand; 
     private int edge;
     private int distanceToLand;
     private Boolean land = false;
@@ -27,7 +26,6 @@ public class AirDecision extends Decision {
     public String decide() {
         if (counter == 0){
             command.echo(compass.getDirection());
-            
         }
         // first action is echo, so response must be echoresponse
         if (counter == 1){
@@ -75,5 +73,52 @@ public class AirDecision extends Decision {
             command.fly();
             flyCounter++;
         }
+        
+    }
+
+    // needs to be refactored but just putting it here
+    // logic for once you are on the island looking for a creek
+    public String decideLand(){
+        // scan, forward 3
+        // scan again
+        // if the scan turns up 
+        // set the point to where u scanned cuz distance calculations are all relative to each other
+
+        // NOOOO one tile YEAH! WOO! YEAH! 
+            // it'll store one tile then like skip over the others, the tile it stores will be the center of the 3x3
+            // and the rest will be blank
+        // can we assume there's only ONE creek per 3x3 grid? oh well gonna assume it anyway :3
+        
+
+        // if you just scanned
+            // fly forward 3 times
+        // if you just flew forward three times --- 
+            // scan
+
+           // while the echo is giving you ground keep doing this thing
+           // if the echo gives u water then eacho left and right, go whichever way is returning land
+        /*
+             * echo forward;
+             * if echo found ground
+                * if you just scanned || if you just flew && flycount < 3
+                *      fly forward;
+                *      flycount++;
+                * if you just flew && flycount == 3 ("else")
+                *      flycount == 0;
+                *      scan;
+            * else if echo found water
+                * if echo left gives u land, turn and go this way
+                * else if echo right gives u land turn and go this way
+        */
+
+        // now need a way to make sure it stays on land
+        // need to use echo
+        // like the beginning, echo, make a count, decrease it as you go
+    
+        command.scan();
+
+
+
+        return command.toString();
     }
 }
