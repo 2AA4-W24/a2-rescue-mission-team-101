@@ -77,4 +77,3 @@ public class AirDecision extends Decision {
         }
     }
 }
-

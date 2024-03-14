@@ -49,7 +49,7 @@ public class Drone extends Traveler {
             default:
                 break;
         }
-        // need to update the compass somehow. 
+        // need to update the compass somehow 
     }
 
     // Battery stuff
@@ -64,6 +64,10 @@ public class Drone extends Traveler {
             logger.info("*** Drone is dead. Womp Womp.");
             charge = 0;
         }
+    }
+    
+    public Compass getCompass(){
+        return compass;
     }
 
 }
