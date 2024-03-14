@@ -8,7 +8,7 @@ public class AirDecision extends Decision {
 
     // Command object
     Command command = new Command();
-    EchoResponse response = new EchoResponse(); // will be initialized accordidng to type -> using polymorphism
+    EchoResponse response = (EchoResponse)drone.getResponse(); // will be initialized accordidng to type -> using polymorphism
     Compass compass = drone.getCompass();
     private int counter = 0;
     private String lastCommand; 
@@ -48,7 +48,7 @@ public class AirDecision extends Decision {
                 } else if (counter % 3 == 1){
                     if (response.getFound().equals("GROUND")){
                         command.heading(compass.getRight());
-                        distanceToLand = respond.getRange();
+                        distanceToLand = response.getRange();
                         flyForward(distanceToLand);
                         break;
                     }
@@ -56,7 +56,7 @@ public class AirDecision extends Decision {
                 } else {
                     if (response.getFound().equals("GROUND")){
                         command.heading(compass.getLeft());
-                        distanceToLand = respond.getRange();
+                        distanceToLand = response.getRange();
                         flyForward(distanceToLand);
                         break;
                     }

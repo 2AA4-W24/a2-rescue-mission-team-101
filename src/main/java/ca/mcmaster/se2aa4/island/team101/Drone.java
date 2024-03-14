@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Drone extends Traveler {
+public class Drone extends Traveler{
 
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
@@ -11,7 +11,7 @@ public class Drone extends Traveler {
     private Compass compass;
     private AreaMap map;
     private String lastCommand; 
-
+    private Response lastResponse;
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
@@ -34,6 +34,7 @@ public class Drone extends Traveler {
     // we might wanna scan every tile.
     @Override
     public void update(Response response){ 
+        lastResponse = response;
         setCharge(response.getCost());
         // only update the map if it was a scanresponse
         switch (lastCommand) {
@@ -51,7 +52,9 @@ public class Drone extends Traveler {
         }
         // need to update the compass somehow 
     }
-
+    public Response getResponse(){
+        return lastResponse;
+    }
     // Battery stuff
     public Integer getCharge(){
         return charge;
@@ -64,10 +67,6 @@ public class Drone extends Traveler {
             logger.info("*** Drone is dead. Womp Womp.");
             charge = 0;
         }
-    }
-    
-    public Compass getCompass(){
-        return compass;
     }
 
 }
