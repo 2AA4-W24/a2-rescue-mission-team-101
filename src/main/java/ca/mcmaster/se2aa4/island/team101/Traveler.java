@@ -8,11 +8,11 @@ public abstract class Traveler {
 
     public Traveler(){}
 
-    public String getNextMove(){
+    public String getLastMove(){
         return nextMoveStr; 
     }
 
-    public abstract void setNextMove();
+    public abstract void setNextMove(String command);
 
     public abstract void update(Response scan);
 

@@ -10,17 +10,24 @@ public class Drone extends Traveler {
     private AirDecision nextMove;
     private Compass compass;
     private AreaMap map;
+    private String lastCommand; 
 
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
         this.nextMove = new AirDecision(this); // this is weird idk if there's another way
         this.compass = new Compass(initializer.getDirection());
+        this.lastCommand = "echo";
     }
 
     @Override
-    public void setNextMove(){
-        nextMoveStr = nextMove.decide();
+    public void setNextMove(String command){
+        lastCommand = command;
+    }
+
+    @Override
+    public String getLastMove(){
+        return lastCommand;
     }
 
     // should sweep and update everything like heading battery etc
@@ -28,11 +35,19 @@ public class Drone extends Traveler {
     @Override
     public void update(Response response){ 
         setCharge(response.getCost());
-        // only update the map w it if it was a scanresponse
-        if (response instanceof ScanResponse) {
-            // the Point coordinate of the drone is held and maintained in the compass. 
-            // it grabs it in here to update the map
-            map.updateMap(compass.getPosition(), (ScanResponse)response);
+        // only update the map if it was a scanresponse
+        switch (lastCommand) {
+            case "scan":
+                // the Point coordinate of the drone is held and maintained in the compass. 
+                // it grabs it in here to update the map
+                map.updateMap(compass.getPosition(), (ScanResponse)response);
+                break;
+            case "fly":
+                compass.advance();
+            case "echo":
+                response = (EchoResponse)response;
+            default:
+                break;
         }
         // need to update the compass somehow. 
     }
