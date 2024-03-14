@@ -28,13 +28,13 @@ public class Drone extends Traveler {
     @Override
     public void update(Response response){ 
         setCharge(response.getCost());
-        // only update the map if it was a scanresponse
+        // only update the map w it if it was a scanresponse
         if (response instanceof ScanResponse) {
             // the Point coordinate of the drone is held and maintained in the compass. 
             // it grabs it in here to update the map
             map.updateMap(compass.getPosition(), (ScanResponse)response);
         }
-        // need to update the compass somehow 
+        // need to update the compass somehow. 
     }
 
     // Battery stuff
