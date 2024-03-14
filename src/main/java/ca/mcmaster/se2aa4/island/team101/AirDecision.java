@@ -53,6 +53,7 @@ public class AirDecision extends Decision {
         int flyCounter = 0;
         while (flyCounter < distanceToLand){
             command.fly();
+            flyCounter++;
         }
     }
 }
