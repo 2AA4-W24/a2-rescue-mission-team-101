@@ -65,5 +65,9 @@ public class Drone extends Traveler {
             charge = 0;
         }
     }
+    
+    public Compass getCompass(){
+        return compass;
+    }
 
 }
