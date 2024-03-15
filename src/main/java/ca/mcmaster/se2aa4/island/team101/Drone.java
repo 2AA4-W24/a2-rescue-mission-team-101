@@ -3,72 +3,73 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Drone extends Traveler{
+public class Drone extends Traveler {
 
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
     private AirDecision nextMove;
     private Compass compass;
     private AreaMap map;
-    private String lastCommand; 
-    private JSONResponse lastResponse;
-    public Drone(JSONInitialization initializer){
+    private String lastCommand;
+    private Response lastResponse;
+
+    public Drone(JSONInitialization initializer) {
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
-        this.nextMove = new AirDecision(this); // this is weird idk if there's another way
+        this.nextMove = new AirDecision(this, new Command(), new EchoHandler());
         this.compass = new Compass(initializer.getDirection());
         this.lastCommand = "echo";
+        this.map = new AreaMap(); // Initialize the map
     }
 
     @Override
-    public void setNextMove(String command){
+    public void setNextMove(String command) {
         lastCommand = command;
     }
 
     @Override
-    public String getLastMove(){
+    public String getLastMove() {
         return lastCommand;
     }
 
-    // should sweep and update everything like heading battery etc
-    // we might wanna scan every tile.
     @Override
-    public void update(Response response){ 
-        lastResponse = (JSONResponse)response;
-        setCharge(response.getCost());
-        // only update the map if it was a scanresponse
-        switch (lastCommand) {
-            case "scan":
-                // the Point coordinate of the drone is held and maintained in the compass. 
-                // it grabs it in here to update the map
-                map.updateMap(compass.getPosition(), (ScanResponse)response);
-                break;
-            case "fly":
-                compass.advance();
-            case "echo":
-                response = (EchoResponse)response;
-            default:
-                break;
+    public void update(Response response) {
+        lastResponse = response;
+        
+        // Handle the response based on the command type
+        Object responseObject = response.handleResponse();
+        
+        // Set the charge based on the response cost
+        setCharge(responseObject.getCost());
+        
+        // Update the map only if it was a scan response
+        if (lastCommand.equals("scan") && responseObject instanceof ScanResponse) {
+            ScanResponse scanResponse = (ScanResponse) responseObject;
+            map.updateMap(compass.getPosition(), scanResponse);
         }
-        // need to update the compass somehow 
+        
+        // Update the compass based on the drone's movement
+        compass.turn(lastCommand); // Assuming turn logic is implemented in Compass class
     }
-    public JSONResponse getResponse(){
+
+    public Response getResponse() {
         return lastResponse;
     }
-    // Battery stuff
-    public Integer getCharge(){
+
+    public Integer getCharge() {
         return charge;
     }
 
-    
+    public Compass getCompass(){
+        return compass;
+    }
 
-    private void setCharge(Integer cost){
+    private void setCharge(Integer cost) {
         charge -= cost;
-        logger.info(" = {}", charge);
-        if (charge <= 0){
-            logger.info("*** Drone is dead. Womp Womp.");
+        logger.info("Battery level: {}", charge);
+        if (charge <= 0) {
+            logger.info("*** Drone is out of battery. ***");
             charge = 0;
         }
     }
-
 }

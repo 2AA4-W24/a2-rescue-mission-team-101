@@ -26,7 +26,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        decisionType = ad.getCommand().getType();
+        decisionType = ad.getCommandStr();
         return ad.decide();
     }
 
