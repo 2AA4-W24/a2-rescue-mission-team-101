@@ -11,7 +11,7 @@ public class Drone extends Traveler{
     private Compass compass;
     private AreaMap map;
     private String lastCommand; 
-    private Response lastResponse;
+    private JSONResponse lastResponse;
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
@@ -34,7 +34,7 @@ public class Drone extends Traveler{
     // we might wanna scan every tile.
     @Override
     public void update(Response response){ 
-        lastResponse = response;
+        lastResponse = (JSONResponse)response;
         setCharge(response.getCost());
         // only update the map if it was a scanresponse
         switch (lastCommand) {
@@ -52,13 +52,15 @@ public class Drone extends Traveler{
         }
         // need to update the compass somehow 
     }
-    public Response getResponse(){
+    public JSONResponse getResponse(){
         return lastResponse;
     }
     // Battery stuff
     public Integer getCharge(){
         return charge;
     }
+
+    
 
     private void setCharge(Integer cost){
         charge -= cost;

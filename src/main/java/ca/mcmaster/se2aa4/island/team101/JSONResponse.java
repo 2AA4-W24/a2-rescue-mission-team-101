@@ -24,3 +24,5 @@ public class JSONResponse implements Response<JSONObject>{
         return response.getInt("cost");
     }
 }
+
+// get rid of all the different types, we use one big case to extract the proper info, scine all responses have the same number of fields.

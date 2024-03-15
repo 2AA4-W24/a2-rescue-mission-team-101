@@ -1,15 +1,18 @@
 package ca.mcmaster.se2aa4.island.team101;
 import org.json.JSONObject;
-
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class AirDecision extends Decision {
+    private final Logger logger = LogManager.getLogger();
+
     private Drone drone;   
     //private JSONObject decision = new JSONObject();
 
     // Command object
-    Command command = new Command();
-    EchoResponse response = new EchoResponse(); // will be initialized accordidng to type -> using polymorphism
-    Compass compass = drone.getCompass();
+    Command command;
+    JSONResponse response;
+    Compass compass;
     private int counter = 0;
     private int edge;
     private int distanceToLand;
@@ -20,22 +23,38 @@ public class AirDecision extends Decision {
 
     public AirDecision(Drone drone) {
         super(drone);
+        this.command = new Command();
+        this.response = drone.getResponse(); // will be initialized accordidng to type -> using polymorphism
+        this.compass = drone.getCompass();
     }
 
     @Override
     public String decide() {
+        logger.info(counter);
+        logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
         if (counter == 0){
             command.echo(compass.getDirection());
+            counter+=1;
+            logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+
+            logger.info(counter);
+
         }
         // first action is echo, so response must be echoresponse
-        if (counter == 1){
-            if (response.getFound().equals("GROUND")){
-                distanceToLand = response.getRange();
+        else if (counter == 1){
+            if (((EchoResponse)response).getFound().equals("GROUND")){
+                distanceToLand = ((EchoResponse)response).getRange();
                 flyForward(distanceToLand);
+                counter++;
             } else{
-                edge = response.getRange();
+                logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+                edge = ((EchoResponse)response).getRange();
+                logger.info(counter);
+
             }
+
         } else {
+            counter = 0;
             while (counter < edge){
                 // just for the mvp, it checks for land and returns home immediately
                 // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
@@ -44,23 +63,23 @@ public class AirDecision extends Decision {
                 if (counter % 3 == 0){
                     command.echo(compass.getRight());
                 } else if (counter % 3 == 1){
-                    if (response.getFound().equals("GROUND")){
+                    if (((EchoResponse)response).getFound().equals("GROUND")){
                         command.heading(compass.getRight());
-                        distanceToLand = response.getRange();
+                        distanceToLand = ((EchoResponse)response).getRange();
                         flyForward(distanceToLand);
                         break;
                     }
                     command.echo(compass.getLeft());
                 } else {
-                    if (response.getFound().equals("GROUND")){
+                    if (((EchoResponse)response).getFound().equals("GROUND")){
                         command.heading(compass.getLeft());
-                        distanceToLand = response.getRange();
+                        distanceToLand = ((EchoResponse)response).getRange();
                         flyForward(distanceToLand);
                         break;
                     }
                     command.fly();
                 }
-                counter++;
+                counter+=1;
             } 
         }
         return command.toString();
