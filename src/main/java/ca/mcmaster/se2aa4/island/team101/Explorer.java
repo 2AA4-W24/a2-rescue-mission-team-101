@@ -26,15 +26,17 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
-        decisionType = ad.getCommandStr();
-        return ad.decide();
+        String decision = ad.decide();
+        decisionType = ad.getType();
+        return decision;
     }
 
     @Override
     public void acknowledgeResults(String s) {
-        JSONResponse response = new JSONResponse(decisionType, s);
+        Response response = new Response(decisionType, s);
+        GenericResponse r = response.handleResponse();
         logger.info("** Response received:\n"+response.toString());
-        logger.info("The cost of the action was {}", response.getCost());
+        logger.info("The cost of the action was {}", r.getCost());
         //logger.info("Additional information received: {}", response.getExtraInfo());
         drone.update(response);
     }

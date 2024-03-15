@@ -1,5 +1,7 @@
 package ca.mcmaster.se2aa4.island.team101;
 
+import org.json.JSONArray;
+
 public class Tile {
     private String creekID;
     private String siteID;
@@ -26,13 +28,23 @@ public class Tile {
     }
 
     public void fillTile(ScanResponse scanResponse) {
-        String newCreekID = scanResponse.getCreek();
-        if (!newCreekID.isEmpty()) {
-            this.creekID = newCreekID;
+        // list of creeks sad face
+        JSONArray creeks = scanResponse.getCreeks();
+        if (creeks.length() > 0) {
+            StringBuilder creekIDs = new StringBuilder();
+            for (int i = 0; i < creeks.length(); i++) {
+                creekIDs.append(creeks.getString(i));
+                if (i < creeks.length() - 1) {
+                    creekIDs.append(", "); // comma separated IDs
+                }
+            }
+            this.creekID = creekIDs.toString();
         }
-        String newSiteID = scanResponse.getSite();
-        if (!newSiteID.isEmpty()) {
-            this.siteID = newSiteID;
+
+        // Site ID to is first site in the list it has 
+        JSONArray sites = scanResponse.getSites();
+        if (sites.length() > 0) {
+            this.siteID = sites.getString(0); 
         }
     }
 }

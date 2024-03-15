@@ -13,59 +13,65 @@ public class AirDecision extends Decision {
     private int edge;
     private int distanceToLand;
 
-    public AirDecision(Drone drone, ResponseHandler<?> responseHandler) {
+    public AirDecision(Drone drone) {
         super(drone);
-        this.command = new Command(); // command is like a storage item, after each move kill it and make a clean one 
-        this.responseHandler = responseHandler;
+        this.command = new Command();
         this.compass = drone.getCompass();
     }
 
     @Override
     public String decide() {
-        logger.info("Counter: " + counter);
+        logger.info(counter);
+        logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+        if (counter == 0){
+            command.echo(compass.getDirection());
+            counter+=1;
+            logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
 
-        switch (counter) {
-            case 0:
-                command.echo(compass.getDirection());
+            logger.info(counter);
+
+        }
+        // first action is echo, so response must be echoresponse
+        else if (counter == 1){
+            if (((EchoResponse)response).getFound().equals("GROUND")){
+                distanceToLand = ((EchoResponse)response).getRange();
+                flyForward(distanceToLand);
                 counter++;
-                break;
-            case 1:
-                EchoResponse echoResponse = (EchoResponse) responseHandler.handle(null, null);
-                if (echoResponse.getFound().equals("GROUND")) {
-                    distanceToLand = echoResponse.getRange();
-                    flyForward(distanceToLand);
-                    counter++;
-                } else {
-                    edge = echoResponse.getRange();
-                }
-                break;
-            default:
-                counter = 0;
-                while (counter < edge) {
-                    if (counter % 3 == 0) {
-                        command.echo(compass.getRight());
-                    } else if (counter % 3 == 1) {
-                        EchoResponse echoResponseRight = (EchoResponse) responseHandler.handle(null, null);
-                        if (echoResponseRight.getFound().equals("GROUND")) {
-                            command.heading(compass.getRight());
-                            distanceToLand = echoResponseRight.getRange();
-                            flyForward(distanceToLand);
-                            break;
-                        }
-                        command.echo(compass.getLeft());
-                    } else {
-                        EchoResponse echoResponseLeft = (EchoResponse) responseHandler.handle(null, null);
-                        if (echoResponseLeft.getFound().equals("GROUND")) {
-                            command.heading(compass.getLeft());
-                            distanceToLand = echoResponseLeft.getRange();
-                            flyForward(distanceToLand);
-                            break;
-                        }
-                        command.fly();
+            } else{
+                logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+                edge = ((EchoResponse)response).getRange();
+                logger.info(counter);
+
+            }
+
+        } else {
+            counter = 0;
+            while (counter < edge){
+                // just for the mvp, it checks for land and returns home immediately
+                // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
+                // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
+                // decision.put("action", "stop"); 
+                if (counter % 3 == 0){
+                    command.echo(compass.getRight());
+                } else if (counter % 3 == 1){
+                    if (((EchoResponse)response).getFound().equals("GROUND")){
+                        command.heading(compass.getRight());
+                        distanceToLand = ((EchoResponse)response).getRange();
+                        flyForward(distanceToLand);
+                        break;
                     }
-                    counter++;
+                    command.echo(compass.getLeft());
+                } else {
+                    if (((EchoResponse)response).getFound().equals("GROUND")){
+                        command.heading(compass.getLeft());
+                        distanceToLand = ((EchoResponse)response).getRange();
+                        flyForward(distanceToLand);
+                        break;
+                    }
+                    command.fly();
                 }
-                break;
+                counter+=1;
+            } 
         }
         return command.toString();
     }
@@ -79,5 +85,9 @@ public class AirDecision extends Decision {
     public String decideLand() {
         command.scan();
         return command.toString();
+    }
+
+    public String getType(){
+        return command.getType();
     }
 }
