@@ -9,9 +9,11 @@ public class JSONResponse implements Response<JSONObject>{
     private JSONObject response;
     protected JSONObject extras;
 
-    public JSONResponse(String data){
+    public JSONResponse(String cmdType, String data){
         this.response = new JSONObject(new JSONTokener(new StringReader(data)));
         this.extras = response.getJSONObject("extras"); // Initialize the extras field
+        // so that we know what type of response we're have
+        response.put("action", cmdType);
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Explorer implements IExplorerRaid {
     private JSONInitialization initializer;
     private AirDecision ad;
     private Drone drone;
+    String decisionType;
     
     @Override
     public void initialize(String s) {
@@ -25,12 +26,13 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
+        decisionType = ad.getCommand().getType();
         return ad.decide();
     }
 
     @Override
     public void acknowledgeResults(String s) {
-        JSONResponse response = new JSONResponse(s);
+        JSONResponse response = new JSONResponse(decisionType, s);
         logger.info("** Response received:\n"+response.toString());
         logger.info("The cost of the action was {}", response.getCost());
         //logger.info("Additional information received: {}", response.getExtraInfo());

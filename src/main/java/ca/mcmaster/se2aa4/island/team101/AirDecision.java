@@ -16,7 +16,7 @@ public class AirDecision extends Decision {
     private int counter = 0;
     private int edge;
     private int distanceToLand;
-    private Boolean land = false;
+    //private Boolean land = false;
     // use getters from drone to get other relevant info/objects for decision logic
     // should only need emergency detector and battery through drone
     // commands cover everything else i think
@@ -24,8 +24,12 @@ public class AirDecision extends Decision {
     public AirDecision(Drone drone) {
         super(drone);
         this.command = new Command();
-        this.response = drone.getResponse(); // will be initialized accordidng to type -> using polymorphism
-        this.compass = drone.getCompass();
+        //this.response = drone.getResponse(); // will be initialized accordidng to type -> using polymorphism
+        //this.compass = drone.getCompass();
+    }
+
+    public Command getCommand(){
+        return command;
     }
 
     @Override
@@ -135,8 +139,6 @@ public class AirDecision extends Decision {
         // like the beginning, echo, make a count, decrease it as you go
     
         command.scan();
-
-
 
         return command.toString();
     }

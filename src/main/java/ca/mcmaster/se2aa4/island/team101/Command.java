@@ -1,13 +1,10 @@
 package ca.mcmaster.se2aa4.island.team101;
+
 import org.json.JSONObject;
 
-public class Command {
-    private static final String FLY = "fly";
-    private static final String STOP = "stop";
-    private static final String HEADING = "heading";
-    private static final String ECHO = "echo";
-    private static final String SCAN = "scan";
+import static ca.mcmaster.se2aa4.island.team101.CommandStrings.*;
 
+public class Command {
     private JSONObject command = new JSONObject(); // where we .put() to
     private JSONObject parameters = new JSONObject(); // for passing parameters into command
 
@@ -45,6 +42,10 @@ public class Command {
     // to use in Decision logic
     public String toString(){
         return command.toString();
+    }
+
+    public String getType() {
+        return command.optString("action", null);
     }
 
 }
