@@ -9,7 +9,6 @@ public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
     private JSONInitialization initializer;
-    private AirDecision ad;
     private Drone drone;
     String decisionType;
     
@@ -19,24 +18,20 @@ public class Explorer implements IExplorerRaid {
         initializer = new JSONInitialization(s);
         logger.info(initializer.toString());
         drone = new Drone(initializer);
-        ad = new AirDecision(drone);
         //logger.info("The drone is facing {}", initializer.getDirection());
         //logger.info("Battery level is {}", initializer.getBatteryLevel());
     }
 
     @Override
     public String takeDecision() {
-        String decision = ad.decide();
-        decisionType = ad.getType();
-        return decision;
+        return drone.droneNextMove();
     }
 
     @Override
     public void acknowledgeResults(String s) {
-        Response response = new Response(decisionType, s);
-        GenericResponse r = response.handleResponse();
+        Response<?> response = new Response(decisionType, s);
         logger.info("** Response received:\n"+response.toString());
-        logger.info("The cost of the action was {}", r.getCost());
+        //logger.info("The cost of the action was {}", r.getCost());
         //logger.info("Additional information received: {}", response.getExtraInfo());
         drone.update(response);
     }

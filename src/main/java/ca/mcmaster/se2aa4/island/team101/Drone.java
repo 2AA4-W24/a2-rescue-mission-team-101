@@ -11,7 +11,7 @@ public class Drone extends Traveler {
     private Compass compass;
     private AreaMap map;
     private String lastCommand;
-    private Response lastResponse;
+    private Response<?> lastResponse;
 
     public Drone(JSONInitialization initializer) {
         this.initializer = initializer;
@@ -19,7 +19,6 @@ public class Drone extends Traveler {
         this.compass = new Compass(initializer.getDirection());
         this.lastCommand = "echo";
         this.map = new AreaMap(); // Initialize the map
-        this.nextMove = new AirDecision(this, new EchoHandler());
     }
 
     @Override
@@ -33,27 +32,31 @@ public class Drone extends Traveler {
     }
 
     @Override
-    public void update(Response response) {
+    public void update(Response<?> response) {
         lastResponse = response;
-        
+
         // Handle the response based on the command type
-        GenericResponse r = response.handleResponse();
-        
+        GenericResponse typedResponse = response.handleResponse();
+        // initialize nextmove to a new airdecision for this drone with the specific response type from before
+        nextMove = new AirDecision(this, typedResponse);
+
         // Set the charge based on the response cost
-        setCharge(r.getCost());
+        setCharge(typedResponse.getCost());
         
         // Update the map only if it was a scan response
         if (lastCommand.equals("scan")) {
-            ScanResponse scanResponse = (ScanResponse) r;
+            ScanResponse scanResponse = (ScanResponse) typedResponse;
             map.updateMap(compass.getPosition(), scanResponse);
         }
         
         compass.turn(lastCommand);
-        
-        nextMove.decide();
     }
 
-    public Response getResponse() {
+    public String droneNextMove(){
+        return nextMove.decide();
+    }
+
+    public Response<?> getResponse() {
         return lastResponse;
     }
 

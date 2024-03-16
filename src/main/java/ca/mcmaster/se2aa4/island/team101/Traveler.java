@@ -14,6 +14,6 @@ public abstract class Traveler {
 
     public abstract void setNextMove(String command);
 
-    public abstract void update(Response scan);
+    public abstract void update(Response<?> response);
 
 }

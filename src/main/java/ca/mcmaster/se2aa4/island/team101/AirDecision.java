@@ -7,16 +7,17 @@ public class AirDecision extends Decision {
     private final Logger logger = LogManager.getLogger();
 
     private Command command;
-    private ResponseHandler<?> responseHandler;
+    private GenericResponse response;
     private Compass compass;
     private int counter = 0;
     private int edge;
     private int distanceToLand;
 
-    public AirDecision(Drone drone) {
+    public AirDecision(Drone drone, GenericResponse response) {
         super(drone);
         this.command = new Command();
         this.compass = drone.getCompass();
+        this.response = response;
     }
 
     @Override
@@ -27,7 +28,6 @@ public class AirDecision extends Decision {
             command.echo(compass.getDirection());
             counter+=1;
             logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
-
             logger.info(counter);
 
         }
