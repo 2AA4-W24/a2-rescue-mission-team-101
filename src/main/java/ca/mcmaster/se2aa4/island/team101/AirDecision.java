@@ -17,7 +17,6 @@ public class AirDecision extends Decision {
 
     public AirDecision(Drone drone) {
         super(drone);
-        this.command = new Command();
         this.compass = drone.getCompass();
         //this.response = response;
     }
@@ -28,6 +27,7 @@ public class AirDecision extends Decision {
 
     @Override
     public String decide() {
+        command = new Command();
         logger.info(compass.getDirection());
         logger.info(counter);
         logger.info("****************************** BASE CASE");
@@ -72,10 +72,13 @@ public class AirDecision extends Decision {
             // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
             // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
             // decision.put("action", "stop");
-            if (facingLand && !atLand){ // if facing the land and not yet at land, then fly forward
+
+            if (facingLand && eta < distanceToLand){ // if facing the land and not yet at land, then fly forward
                 command.fly();
                 eta++;
                 return command.toString();
+            } else if (facingLand){
+                atLand = true;
             }
             if (atLand && !scanComplete){ // SCAN IF AT LAND
                 command.scan();
@@ -137,12 +140,6 @@ public class AirDecision extends Decision {
                 return command.toString();
             }
             
-        }
-        if (eta == distanceToLand){// if at the island then scan
-            atLand = true;
-        }
-        else if (eta > edge){// stop after scanning
-            command.stop();
         }
         
         return command.toString();
