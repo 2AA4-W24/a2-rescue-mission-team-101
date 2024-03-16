@@ -7,7 +7,7 @@ public class Drone extends Traveler{
 
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
-    private AirDecision nextMove;
+    //private AirDecision nextMove;
     private Compass compass;
     private AreaMap map;
     private String lastCommand; 
@@ -15,7 +15,7 @@ public class Drone extends Traveler{
     public Drone(JSONInitialization initializer){
         this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
-        this.nextMove = new AirDecision(this); // this is weird idk if there's another way
+        //this.nextMove = new AirDecision(this); // this is weird idk if there's another way
         this.compass = new Compass(initializer.getDirection());
         this.lastCommand = "echo";
     }
@@ -45,8 +45,7 @@ public class Drone extends Traveler{
                 break;
             case "fly":
                 compass.advance();
-            case "echo":
-                response = (EchoResponse)response;
+
             default:
                 break;
         }

@@ -10,9 +10,9 @@ public class AirDecision extends Decision {
     //private JSONObject decision = new JSONObject();
 
     // Command object
-    Command command;
-    JSONResponse response;
-    Compass compass;
+    private Command command;
+    private JSONResponse response;
+    private Compass compass;
     private int counter = 0;
     private String lastCommand; 
     private int edge;
@@ -43,6 +43,7 @@ public class AirDecision extends Decision {
         }
         // first action is echo, so response must be echoresponse
         else if (counter == 1){
+            logger.info("*******************************");
             if (((EchoResponse)response).getFound().equals("GROUND")){
                 distanceToLand = ((EchoResponse)response).getRange();
                 flyForward(distanceToLand);
