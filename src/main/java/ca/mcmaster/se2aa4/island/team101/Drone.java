@@ -55,6 +55,7 @@ public class Drone extends Traveler {
     public String droneNextMove(){
         return nextMove.decide();
     }
+    
     public String getLastType(){
         return nextMove.getType();
     }

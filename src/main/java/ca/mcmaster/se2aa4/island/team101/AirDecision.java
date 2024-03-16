@@ -37,6 +37,7 @@ public class AirDecision extends Decision {
         }
         // first action is echo, so response must be echoresponse
         else if (counter == 1){
+            logger.info("*******************************");
             if (((EchoResponse)response).getFound().equals("GROUND")){
                 distanceToLand = ((EchoResponse)response).getRange();
                 flyForward(distanceToLand);
