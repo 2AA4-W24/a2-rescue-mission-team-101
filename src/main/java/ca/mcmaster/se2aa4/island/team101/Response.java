@@ -10,11 +10,13 @@ public class Response<T> {
     private JSONObject response;
     private JSONObject extras;
     private String cmdType;
+    private String data;
 
     public Response(String cmdType, String data) {
         this.response = new JSONObject(new JSONTokener(new StringReader(data)));
         this.extras = response.optJSONObject("extras");
         this.cmdType = cmdType;
+        this.data = data;
     }
 
     public GenericResponse handleResponse() {
@@ -26,5 +28,9 @@ public class Response<T> {
             // Default handler
             return new GenericResponse(response.optInt("cost"), response.optString("status"));
         }
+    }
+    @Override
+    public String toString(){
+        return data;
     }
 }
