@@ -9,7 +9,7 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
-    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0;
+    private int counter = 0, distanceToEdge = 0, eta = 1, stage = 0;
     private int edge=0;
     private int distanceToLand;
     Boolean facingLand=false, atLand=false, scanComplete=false;
@@ -28,6 +28,7 @@ public class AirDecision extends Decision {
 
     @Override
     public String decide() {
+        command = new Command();
         logger.info(compass.getDirection());
         logger.info(counter);
         logger.info("****************************** BASE CASE");
@@ -41,7 +42,7 @@ public class AirDecision extends Decision {
         }
         // first action is echo, so response must be echoresponse
         else if (counter == 1){
-            logger.info("*******************************");
+            logger.info("*********************** READ FIRST ECHO");
             if (((EchoResponse)response).getFound().equals("GROUND")){
                 distanceToLand = ((EchoResponse)response).getRange();
                 facingLand = true;
@@ -85,6 +86,9 @@ public class AirDecision extends Decision {
             if (scanComplete){ // STOP IF SCANNED
                 command.stop();
                 return command.toString();
+            }
+            if (eta == distanceToLand){// if at the island then scan
+                atLand = true;
             }
 
             // FOUR STAGES WHEN SEARCHING
@@ -137,12 +141,6 @@ public class AirDecision extends Decision {
                 return command.toString();
             }
             
-        }
-        if (eta == distanceToLand){// if at the island then scan
-            atLand = true;
-        }
-        else if (eta > edge){// stop after scanning
-            command.stop();
         }
         
         return command.toString();
