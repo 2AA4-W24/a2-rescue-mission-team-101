@@ -31,6 +31,9 @@ public class Compass {
         advance(p);
         return p;
     }
+    public void updateHeading(String newDirection){
+        direction = newDirection;
+    }
 
     // this is for updating the internal coordinate when u fly forward
     private Point advance(Point p){

@@ -49,7 +49,7 @@ public class Drone extends Traveler {
             map.updateMap(compass.getPosition(), scanResponse);
         }
         
-        compass.turn(lastCommand);
+        //compass.turn(lastCommand);
     }
 
     public String droneNextMove(){
