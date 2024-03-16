@@ -9,25 +9,29 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
-    private int counter = 0;
+    private int counter = 0, ind = 0;
     private int edge;
     private int distanceToLand;
 
-    public AirDecision(Drone drone, GenericResponse response) {
+    public AirDecision(Drone drone) {
         super(drone);
         this.command = new Command();
         this.compass = drone.getCompass();
-        this.response = response;
+        //this.response = response;
+    }
+    
+    public void updateResponse(GenericResponse newResponse){
+        response = newResponse;
     }
 
     @Override
     public String decide() {
         logger.info(counter);
-        logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+        logger.info("****************************** BASE CASE");
         if (counter == 0){
             command.echo(compass.getDirection());
             counter+=1;
-            logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+            logger.info("***************************** FIRST ECHO");
             logger.info(counter);
 
         }
@@ -38,40 +42,45 @@ public class AirDecision extends Decision {
                 flyForward(distanceToLand);
                 counter++;
             } else{
-                logger.info("aduhwaiuhwaiuhdahiuhwaiuidaidauhwaiu");
+                logger.info("******************** GROUND IS NOT AHEAD OF US, FINDING EDGE");
                 edge = ((EchoResponse)response).getRange();
                 logger.info(counter);
-
+                counter++;
             }
 
         } else {
-            counter = 0;
-            while (counter < edge){
+            if (ind < edge){
                 // just for the mvp, it checks for land and returns home immediately
                 // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
                 // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
                 // decision.put("action", "stop"); 
-                if (counter % 3 == 0){
+                if (ind % 3 == 0){
                     command.echo(compass.getRight());
-                } else if (counter % 3 == 1){
+                } else if (ind % 3 == 1){
                     if (((EchoResponse)response).getFound().equals("GROUND")){
                         command.heading(compass.getRight());
                         distanceToLand = ((EchoResponse)response).getRange();
                         flyForward(distanceToLand);
-                        break;
                     }
                     command.echo(compass.getLeft());
                 } else {
                     if (((EchoResponse)response).getFound().equals("GROUND")){
-                        command.heading(compass.getLeft());
+                        command.heading(compass.getLeft()); // TURNING NEEDS ITS SEPARATE COMMAND< HALF OF THIS CANNOT BE DONE AT ONCE
                         distanceToLand = ((EchoResponse)response).getRange();
                         flyForward(distanceToLand);
-                        break;
                     }
                     command.fly();
                 }
-                counter+=1;
-            } 
+                ind+=1;
+            }
+            if (ind == edge){
+                command.scan();
+                ind++;
+            }
+            else if (ind > edge){
+                command.stop();
+            }
+            counter++;
         }
         return command.toString();
     }
@@ -87,6 +96,7 @@ public class AirDecision extends Decision {
         return command.toString();
     }
 
+    @Override
     public String getType(){
         return command.getType();
     }

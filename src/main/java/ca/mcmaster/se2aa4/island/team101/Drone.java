@@ -19,6 +19,7 @@ public class Drone extends Traveler {
         this.compass = new Compass(initializer.getDirection());
         this.lastCommand = "echo";
         this.map = new AreaMap(); // Initialize the map
+        this.nextMove = new AirDecision(this);
     }
 
     @Override
@@ -37,8 +38,7 @@ public class Drone extends Traveler {
 
         // Handle the response based on the command type
         GenericResponse typedResponse = response.handleResponse();
-        // initialize nextmove to a new airdecision for this drone with the specific response type from before
-        nextMove = new AirDecision(this, typedResponse);
+        nextMove.updateResponse(typedResponse);
 
         // Set the charge based on the response cost
         setCharge(typedResponse.getCost());
@@ -54,6 +54,9 @@ public class Drone extends Traveler {
 
     public String droneNextMove(){
         return nextMove.decide();
+    }
+    public String getLastType(){
+        return nextMove.getType();
     }
 
     public Response<?> getResponse() {

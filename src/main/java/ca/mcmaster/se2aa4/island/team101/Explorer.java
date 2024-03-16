@@ -29,6 +29,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public void acknowledgeResults(String s) {
+        decisionType = drone.getLastType();
         Response<?> response = new Response(decisionType, s);
         logger.info("** Response received:\n"+response.toString());
         //logger.info("The cost of the action was {}", r.getCost());
