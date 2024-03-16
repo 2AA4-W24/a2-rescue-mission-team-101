@@ -1,6 +1,30 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-public interface Response<T> {
-    String toString();
-    Integer getCost();
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import java.io.StringReader;
+
+import static ca.mcmaster.se2aa4.island.team101.CommandStrings.*;
+
+public class Response<T> {
+    private JSONObject response;
+    private JSONObject extras;
+    private String cmdType;
+
+    public Response(String cmdType, String data) {
+        this.response = new JSONObject(new JSONTokener(new StringReader(data)));
+        this.extras = response.optJSONObject("extras");
+        this.cmdType = cmdType;
+    }
+
+    public GenericResponse handleResponse() {
+        if (cmdType.equals(ECHO)) {
+            return new EchoHandler().handle(response, extras);
+        } else if (cmdType.equals(SCAN)) {
+            return new ScanHandler().handle(response, extras);
+        } else {
+            // Default handler
+            return new GenericResponse(response.optInt("cost"), response.optString("status"));
+        }
+    }
 }

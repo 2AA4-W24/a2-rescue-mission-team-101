@@ -20,5 +20,8 @@ public abstract class Decision {
 
     //different logic for either air or land
     public abstract String decide();
+    public abstract String getType();
+    public abstract void updateResponse(GenericResponse newResponse);
+
 
 }
