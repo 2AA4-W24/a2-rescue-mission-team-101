@@ -1,8 +1,8 @@
 package ca.mcmaster.se2aa4.island.team101;
 
 public class GenericResponse {
-    private final int cost;
-    private final String status;
+    protected final int cost;
+    protected final String status;
 
     public GenericResponse(int cost, String status) {
         this.cost = cost;
