@@ -4,7 +4,7 @@ import org.json.JSONObject;
 public class EchoHandler implements ResponseHandler<EchoResponse> {
     @Override
     public EchoResponse handle(JSONObject response, JSONObject extras) {
-        int cost = extras.optInt("cost");
+        int cost = response.optInt("cost");
         String status = response.optString("status");
         int range = extras.optInt("range", 0);
         String found = extras.optString("found", "Unknown");

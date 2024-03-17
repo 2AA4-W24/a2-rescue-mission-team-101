@@ -42,6 +42,7 @@ public class Drone extends Traveler {
 
         // Set the charge based on the response cost
         setCharge(typedResponse.getCost());
+        logger.info("COST OF ACTION: " + typedResponse.getCost());
         
         // Update the map only if it was a scan response
         if (lastCommand.equals("scan")) {
@@ -73,7 +74,9 @@ public class Drone extends Traveler {
     }
 
     private void setCharge(Integer cost) {
+        logger.info("BATTERY WAS: " + charge);
         charge -= cost;
+        logger.info("BATTERY HAS BEEN CHANGED TO: " + charge);
         logger.info("Battery level: {}", charge);
         if (charge <= 0) {
             logger.info("*** Drone is out of battery. ***");

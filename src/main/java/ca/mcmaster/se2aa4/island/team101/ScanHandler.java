@@ -6,7 +6,7 @@ import org.json.JSONObject;
 public class ScanHandler implements ResponseHandler<ScanResponse> {
     @Override
     public ScanResponse handle(JSONObject response, JSONObject extras) {
-        int cost = extras.optInt("cost");
+        int cost = response.optInt("cost");
         String status = response.optString("status");
         JSONArray biomes = extras.optJSONArray("biomes");
         JSONArray creeks = extras.optJSONArray("creeks");
