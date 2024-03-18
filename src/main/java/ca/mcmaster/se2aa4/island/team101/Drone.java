@@ -8,7 +8,7 @@ public class Drone extends Traveler {
     private final Logger logger = LogManager.getLogger(Drone.class);
     private Integer charge;
     private Decision nextMove; 
-    private Compass compass;
+    private Compass compass; // this has the position
     private AreaMap map;
     private String lastCommand;
     private Response<?> lastResponse;
@@ -34,6 +34,7 @@ public class Drone extends Traveler {
 
     @Override
     public void update(Response<?> response) {
+        logger.info("IN DRONE UPDATE");
         lastResponse = response;
 
         // Handle the response based on the command type
@@ -43,11 +44,15 @@ public class Drone extends Traveler {
         // Set the charge based on the response cost
         setCharge(typedResponse.getCost());
         logger.info("COST OF ACTION: " + typedResponse.getCost());
+
+        logger.info("LAST COMMAND WAS: " + lastCommand);
         
         // Update the map only if it was a scan response
         if (lastCommand.equals("scan")) {
+            logger.info("*******************LAST COMMAND WAS A SCAN**************************");
             ScanResponse scanResponse = (ScanResponse) typedResponse;
             map.updateMap(compass.getPosition(), scanResponse);
+            logger.info("MAP:" + map);
         }
         
         //compass.turn(lastCommand);

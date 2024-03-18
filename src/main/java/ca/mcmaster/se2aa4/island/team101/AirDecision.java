@@ -9,7 +9,7 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
-    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0;
+    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, counter2=0;;
     private int edge=0;
     private int distanceToLand;
     Boolean facingLand=false, atLand=false, scanComplete=false;
@@ -68,11 +68,6 @@ public class AirDecision extends Decision {
         }
 
         if (distanceToEdge < edge){
-            // just for the mvp, it checks for land and returns home immediately
-            // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
-            // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
-            // decision.put("action", "stop");
-
             if (facingLand && eta < distanceToLand){ // if facing the land and not yet at land, then fly forward
                 command.fly();
                 eta++;
@@ -86,8 +81,9 @@ public class AirDecision extends Decision {
                 return command.toString();
             }
             if (scanComplete){ // STOP IF SCANNED
-                command.stop();
-                return command.toString();
+                // command.stop();
+                //return command.toString();
+                return creekSearch();
             }
 
             // FOUR STAGES WHEN SEARCHING
@@ -142,6 +138,79 @@ public class AirDecision extends Decision {
             
         }
         
+        return command.toString();
+    }
+
+    private String creekSearch(){
+        logger.info("************************IN CREEKSEARCH");
+        command = new Command();
+        
+
+        // logger.info(compass.getDirection());
+        // logger.info(counter);
+
+        // SATE 0: 
+        // ECHO TO SEE IF YOU CAN FLY FORWARDS
+        if (counter2==0){
+            logger.info("************************* STATE 0");
+            logger.info("**COUNTER2 = " + counter2);
+            // should add something to scan if ur current tile is over land idk
+            // so you dont miss the first tile after land finding phase bc rn itll just immediately echo then
+            // go fwd if it wont be sending itself into the ocean
+
+            // echo forwards
+            command.echo(compass.getDirection());
+            counter2=1;
+            return command.toString();
+        }
+        // STATE 1:
+        // FLY FORWARDS, IF YOU CAN
+        // OTHERWISE ECHO LEFT
+        else if (counter2==1){
+            logger.info("************************* STATE 1");
+            logger.info("**COUNTER2 = " + counter2);
+            if (((EchoResponse)response).getFound().equals("GROUND")){
+                // if u see ground fly forwards
+                command.fly();
+                counter2=3; // straight to scanning state
+            }else{
+                // otherwise check left
+                command.echo(compass.getLeft());
+                counter2=2;
+            }
+            
+            return command.toString();
+        }
+        // STATE 2:
+        // YOU JUST ECHOED LEFT
+        else if (counter2==2){
+            logger.info("************************* STATE 2");
+            logger.info("**COUNTER2 = " + counter2);
+            if (((EchoResponse)response).getFound().equals("GROUND")){
+                // If you saw ground turn left
+                command.heading(compass.getLeft());
+                // bc of the weird turns idk if this will send it off land or not but it should be minimal error not a big issue rn
+            }else{
+                // if you didn't see land you need to go right it's the only other option
+                command.heading(compass.getRight());
+            }
+            counter2=3;
+            return command.toString();
+        }
+        // STATE 3:
+        // SCANNING
+        else if (counter2==3){
+            logger.info("************************* STATE 3");
+            logger.info("**COUNTER2 = " + counter2);
+            command.scan();
+            // map should auto update bc of the code in drone update for whenever it recieves a scan response
+            counter2=0; // back to the state of looking in front of you
+            return command.toString();
+        }
+
+        // need a way to stop it maybe a state 4 once all the tiles are scanned but idk how to tell if they are all scanned
+
+        // it just yells at me if i don't have this ugh idk
         return command.toString();
     }
 
