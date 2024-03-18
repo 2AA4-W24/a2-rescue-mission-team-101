@@ -6,12 +6,14 @@ public class ScanResponse extends GenericResponse {
     private final JSONArray biomes;
     private final JSONArray creeks;
     private final JSONArray sites;
+    private final String type;
 
     public ScanResponse(int cost, String status, JSONArray biomes, JSONArray creeks, JSONArray sites) {
         super(cost, status);
         this.biomes = biomes;
         this.creeks = creeks;
         this.sites = sites;
+        this.type = "scan";
     }
 
     public JSONArray getBiomes() {
@@ -24,5 +26,9 @@ public class ScanResponse extends GenericResponse {
 
     public JSONArray getSites() {
         return sites;
+    }
+
+    public String getType(){
+        return type;
     }
 }

@@ -23,7 +23,7 @@ public class Drone extends Traveler {
     }
 
     @Override
-    public void setNextMove(String command) {
+    public void setPrevMove(String command) {
         lastCommand = command;
     }
 
@@ -34,11 +34,13 @@ public class Drone extends Traveler {
 
     @Override
     public void update(Response<?> response) {
+
         logger.info("IN DRONE UPDATE");
         lastResponse = response;
 
         // Handle the response based on the command type
         GenericResponse typedResponse = response.handleResponse();
+        setPrevMove(typedResponse.getType());
         nextMove.updateResponse(typedResponse);
 
         // Set the charge based on the response cost
@@ -52,7 +54,6 @@ public class Drone extends Traveler {
             logger.info("*******************LAST COMMAND WAS A SCAN**************************");
             ScanResponse scanResponse = (ScanResponse) typedResponse;
             map.updateMap(compass.getPosition(), scanResponse);
-            logger.info("MAP:" + map);
         }
         
         //compass.turn(lastCommand);
@@ -76,6 +77,10 @@ public class Drone extends Traveler {
 
     public Compass getCompass(){
         return compass;
+    }
+
+    public AreaMap getMap(){
+        return map;
     }
 
     private void setCharge(Integer cost) {

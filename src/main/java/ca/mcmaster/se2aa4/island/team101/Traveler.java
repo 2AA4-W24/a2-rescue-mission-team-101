@@ -12,7 +12,7 @@ public abstract class Traveler {
         return nextMoveStr; 
     }
 
-    public abstract void setNextMove(String command);
+    public abstract void setPrevMove(String command);
 
     public abstract void update(Response<?> response);
 

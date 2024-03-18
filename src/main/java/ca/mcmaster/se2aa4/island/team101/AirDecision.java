@@ -14,10 +14,12 @@ public class AirDecision extends Decision {
     private int distanceToLand;
     Boolean facingLand=false, atLand=false, scanComplete=false;
     String newDirection;
+    AreaMap map;
 
     public AirDecision(Drone drone) {
         super(drone);
         this.compass = drone.getCompass();
+        this.map = drone.getMap();
         //this.response = response;
     }
     
@@ -145,6 +147,16 @@ public class AirDecision extends Decision {
         logger.info("************************IN CREEKSEARCH");
         command = new Command();
         
+        // if the current tile is not null then stop
+        if(!(map.getTile(compass.getPosition()).isEmpty())){
+            logger.info("***CURRENT TILE IS NOT EMPTY SO STOPPING***");
+            logger.info("**CURRENT TILE CREEK ID: " + map.getTile(compass.getPosition()).getCreekID());
+            logger.info("**CURRENT TILE SITE ID: " + map.getTile(compass.getPosition()).getSiteID());
+            command.stop();
+            return command.toString();
+        }
+
+        logger.info("***CURRENT TILE IS EMPTY CONTINUE***");
 
         // logger.info(compass.getDirection());
         // logger.info(counter);
@@ -173,7 +185,7 @@ public class AirDecision extends Decision {
                 // if u see ground fly forwards
                 command.fly();
                 counter2=3; // straight to scanning state
-            }else{
+            }else if (((EchoResponse)response).getFound().equals("OCEAN")){
                 // otherwise check left
                 command.echo(compass.getLeft());
                 counter2=2;
@@ -190,7 +202,7 @@ public class AirDecision extends Decision {
                 // If you saw ground turn left
                 command.heading(compass.getLeft());
                 // bc of the weird turns idk if this will send it off land or not but it should be minimal error not a big issue rn
-            }else{
+            }else if (((EchoResponse)response).getFound().equals("OCEAN")){
                 // if you didn't see land you need to go right it's the only other option
                 command.heading(compass.getRight());
             }
