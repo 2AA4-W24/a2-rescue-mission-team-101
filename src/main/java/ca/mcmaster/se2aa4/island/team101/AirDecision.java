@@ -9,15 +9,17 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
-    private int counter = 0, distanceToEdge = 0, eta = 1, stage = 0;
+    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, scanCount=0, turn=0;
     private int edge=0;
     private int distanceToLand;
-    Boolean facingLand=false, atLand=false, scanComplete=false;
+    Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false;
     String newDirection;
+    AreaMap map;
 
     public AirDecision(Drone drone) {
         super(drone);
         this.compass = drone.getCompass();
+        this.map = drone.getMap();
         //this.response = response;
     }
     
@@ -41,7 +43,7 @@ public class AirDecision extends Decision {
         }
         // first action is echo, so response must be echoresponse
         else if (counter == 1){
-            logger.info("*********************** READ FIRST ECHO");
+            logger.info("*******************************");
             if (((EchoResponse)response).getFound().equals("GROUND")){
                 distanceToLand = ((EchoResponse)response).getRange();
                 facingLand = true;
@@ -68,11 +70,6 @@ public class AirDecision extends Decision {
         }
 
         if (distanceToEdge < edge){
-            // just for the mvp, it checks for land and returns home immediately
-            // ideally, this is put into a method, but since its just temporary, it'll just be done in the if statement
-            // need to implement a drone.goHomeCost() or something to figure out when to return, its being simulated by a simple counter for now
-            // decision.put("action", "stop");
-
             if (facingLand && eta < distanceToLand){ // if facing the land and not yet at land, then fly forward
                 command.fly();
                 eta++;
@@ -86,11 +83,9 @@ public class AirDecision extends Decision {
                 return command.toString();
             }
             if (scanComplete){ // STOP IF SCANNED
-                command.stop();
-                return command.toString();
-            }
-            if (eta == distanceToLand){// if at the island then scan
-                atLand = true;
+                // command.stop();
+                //return command.toString();
+                return creekSearch();
             }
 
             // FOUR STAGES WHEN SEARCHING
@@ -146,6 +141,85 @@ public class AirDecision extends Decision {
         }
         
         return command.toString();
+    }
+
+    private String creekSearch(){
+        // TURN RIGHT WHEN LAND IS HIT
+        if (scanCount == 0){
+            logger.info("TURNING RIGHT ONCE ON THE ISLAND*******");
+            newDirection = compass.getRight();
+            command.heading(newDirection);
+            compass.updateHeading(newDirection);
+            lastTurnRight = true;
+            scanCount++;
+            return command.toString();
+        }
+        else{
+            // scan until ocean is FOUND
+            if (scanCount % 2 == 0){
+
+                if (response.hasOnlyOcean()){
+                    // U TURN METHOD HERE (REMEMBER WHAT LAST TURN WAS i.e. if last turn was to the right, next turn should be to the left)
+                    activateUTurn = true;
+                }
+                if (activateUTurn){
+                    return uTurn();
+                }
+
+                command.fly();
+                scanCount++;
+                return command.toString();
+            }
+            else{
+                logger.info("SCANNING THE ISLAND BUZZ BUZZ *****");
+                command.scan();
+                scanCount++;
+                return command.toString();
+            }
+        }
+
+        //return command.toString();
+    }
+
+    public String uTurn(){
+
+        if (lastTurnRight){
+
+            // 1/2 turn
+            if (turn==0){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=1;
+                return command.toString();
+            }
+            else if(turn==1){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=0;
+                lastTurnRight = false;
+                activateUTurn = false;
+                return command.toString();
+            }
+        }
+        else{
+            // 1/2 turn
+            if (turn==0){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=1;
+                return command.toString();
+            }
+            else if (turn==1){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=0;
+                lastTurnRight = true;
+                activateUTurn = false;
+                return command.toString();
+            }
+        }
+        return command.toString();
+
     }
 
     public String decideLand() {
