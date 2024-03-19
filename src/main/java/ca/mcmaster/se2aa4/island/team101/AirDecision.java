@@ -19,7 +19,7 @@ public class AirDecision extends Decision {
     public AirDecision(Drone drone) {
         super(drone);
         this.compass = drone.getCompass();
-        this.map = drone.getMap();
+        //this.map = drone.getMap();
         //this.response = response;
     }
     
