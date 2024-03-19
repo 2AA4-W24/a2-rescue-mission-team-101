@@ -13,7 +13,7 @@ public class AirDecision extends Decision {
     private int edge=0;
     private int distanceToLand;
     Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false;
-    String newDirection;
+    String newDirection, faceIslandAgain;
     AreaMap map;
 
     public AirDecision(Drone drone) {
@@ -105,6 +105,7 @@ public class AirDecision extends Decision {
 
                 if (((EchoResponse)response).getFound().equals("GROUND")){ // IF GROUND IS FOUND, CHANGE HEADING AND FLY TOWARDS IT
                     newDirection = compass.getRight(); // MAKE SEPARATE LIKE .TURN that deals with reassigning direction (probably in command)
+                    faceIslandAgain = compass.getDirection();
                     compass.updateHeading(newDirection);
                     command.heading(newDirection);
                     distanceToLand = ((EchoResponse)response).getRange();
@@ -127,6 +128,7 @@ public class AirDecision extends Decision {
                 stage++;
                 if (((EchoResponse)response).getFound().equals("GROUND")){ // IF GROUND IS FOUND, CHANGE HEADING AND FLY TOWARDS IT
                     newDirection = compass.getLeft();
+                    faceIslandAgain = compass.getDirection();
                     compass.updateHeading(newDirection);
                     command.heading(newDirection);
                     distanceToLand = ((EchoResponse)response).getRange();
@@ -144,9 +146,20 @@ public class AirDecision extends Decision {
     }
 
     private String creekSearch(){
-        // TURN RIGHT WHEN LAND IS HIT
+        // TURN SO DRONE IS FACING ISLAND WHEN LAND IS HIT
         if (scanCount == 0){
-            logger.info("TURNING RIGHT ONCE ON THE ISLAND*******");
+            logger.info("TURNING TOWARDS THE ISLAND *******");
+            // turning so drone is facing the island after
+            newDirection = faceIslandAgain;
+            command.heading(newDirection);
+            compass.updateHeading(newDirection);
+            lastTurnRight = true;
+            scanCount++;
+            return command.toString();
+        }
+        // TURN RIGHT WHEN ON THE ISLAND
+        else if(scanCount == 1){
+            logger.info("TURNING RIGHT ONCE FACING THE ISLAND*******");
             newDirection = compass.getRight();
             command.heading(newDirection);
             compass.updateHeading(newDirection);
@@ -156,9 +169,11 @@ public class AirDecision extends Decision {
         }
         else{
             // scan until ocean is FOUND
-            if (scanCount % 2 == 0){
-
-                if (response.hasOnlyOcean()){
+            if (scanCount % 2 == 1){
+                
+                logger.info(response.hasOnlyOcean() + " *********************");
+                // hasOnlyOcean returns null for some reason for once of the decisions
+                if (!activateUTurn && response.hasOnlyOcean()!= null && response.hasOnlyOcean()){
                     // U TURN METHOD HERE (REMEMBER WHAT LAST TURN WAS i.e. if last turn was to the right, next turn should be to the left)
                     activateUTurn = true;
                 }
