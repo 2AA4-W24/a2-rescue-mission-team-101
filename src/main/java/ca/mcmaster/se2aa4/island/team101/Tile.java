@@ -7,8 +7,8 @@ public class Tile {
     private String siteID;
 
     public Tile(){
-        this.creekID = "";
-        this.siteID = "";
+        this.creekID = null;
+        this.siteID = null;
     }
 
     public String getCreekID(){
@@ -46,5 +46,9 @@ public class Tile {
         if (sites.length() > 0) {
             this.siteID = sites.getString(0); 
         }
+    }
+
+    public boolean isEmpty(){
+        return siteID == null && creekID == null;
     }
 }

@@ -27,4 +27,5 @@ public class GenericResponse {
     public Boolean hasOnlyOcean(){
         return hasOnlyOcean;
     }
+
 }

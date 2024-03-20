@@ -7,7 +7,7 @@ import java.awt.Point;
 public class AreaMap {
     List<String> rows = new ArrayList<String>();
     HashMap<Point, Tile> map;
-
+    
     public AreaMap(){
         map = new HashMap<>();
     }

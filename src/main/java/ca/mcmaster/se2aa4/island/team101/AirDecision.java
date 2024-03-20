@@ -9,6 +9,7 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
+
     private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, scanCount=0, turn=0;
     private int edge=0;
     private int distanceToLand;
