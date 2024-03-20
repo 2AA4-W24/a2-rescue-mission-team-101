@@ -19,6 +19,15 @@ public class ScanResponse extends GenericResponse {
     public JSONArray getBiomes() {
         return biomes;
     }
+    @Override
+    public Boolean hasOnlyOcean() {
+        for (int i = 0; i < biomes.length(); i++) {
+            if (!("OCEAN".equals(biomes.optString(i)))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public JSONArray getCreeks() {
         return creeks;

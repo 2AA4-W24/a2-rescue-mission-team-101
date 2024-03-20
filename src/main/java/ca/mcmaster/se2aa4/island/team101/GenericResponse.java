@@ -4,6 +4,7 @@ public class GenericResponse {
     protected final int cost;
     protected final String status;
     private String type;
+    private Boolean hasOnlyOcean;
 
     public GenericResponse(int cost, String status) {
         this.cost = cost;
@@ -22,4 +23,9 @@ public class GenericResponse {
     public String getType(){
         return type;
     }
+
+    public Boolean hasOnlyOcean(){
+        return hasOnlyOcean;
+    }
+
 }

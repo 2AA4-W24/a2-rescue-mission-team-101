@@ -46,8 +46,6 @@ public class Drone extends Traveler {
         // Set the charge based on the response cost
         setCharge(typedResponse.getCost());
         logger.info("COST OF ACTION: " + typedResponse.getCost());
-
-        logger.info("LAST COMMAND WAS: " + lastCommand);
         
         // Update the map only if it was a scan response
         if (lastCommand.equals("scan")) {

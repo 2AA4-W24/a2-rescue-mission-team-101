@@ -9,17 +9,18 @@ public class AirDecision extends Decision {
     private Command command;
     private GenericResponse response;
     private Compass compass;
-    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, counter2=0;;
+
+    private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, scanCount=0, turn=0;
     private int edge=0;
     private int distanceToLand;
-    Boolean facingLand=false, atLand=false, scanComplete=false;
-    String newDirection;
+    Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false;
+    String newDirection, faceIslandAgain;
     AreaMap map;
 
     public AirDecision(Drone drone) {
         super(drone);
         this.compass = drone.getCompass();
-        this.map = drone.getMap();
+        //this.map = drone.getMap();
         //this.response = response;
     }
     
@@ -105,6 +106,7 @@ public class AirDecision extends Decision {
 
                 if (((EchoResponse)response).getFound().equals("GROUND")){ // IF GROUND IS FOUND, CHANGE HEADING AND FLY TOWARDS IT
                     newDirection = compass.getRight(); // MAKE SEPARATE LIKE .TURN that deals with reassigning direction (probably in command)
+                    faceIslandAgain = compass.getDirection();
                     compass.updateHeading(newDirection);
                     command.heading(newDirection);
                     distanceToLand = ((EchoResponse)response).getRange();
@@ -127,6 +129,7 @@ public class AirDecision extends Decision {
                 stage++;
                 if (((EchoResponse)response).getFound().equals("GROUND")){ // IF GROUND IS FOUND, CHANGE HEADING AND FLY TOWARDS IT
                     newDirection = compass.getLeft();
+                    faceIslandAgain = compass.getDirection();
                     compass.updateHeading(newDirection);
                     command.heading(newDirection);
                     distanceToLand = ((EchoResponse)response).getRange();
@@ -144,86 +147,95 @@ public class AirDecision extends Decision {
     }
 
     private String creekSearch(){
-        logger.info("************************IN CREEKSEARCH");
-        command = new Command();
-        
-        // if the current tile is not null then stop
-        if(!(map.getTile(compass.getPosition()).isEmpty())){
-            logger.info("***CURRENT TILE IS NOT EMPTY SO STOPPING***");
-            logger.info("**CURRENT TILE CREEK ID: " + map.getTile(compass.getPosition()).getCreekID());
-            logger.info("**CURRENT TILE SITE ID: " + map.getTile(compass.getPosition()).getSiteID());
-            command.stop();
+        // TURN SO DRONE IS FACING ISLAND WHEN LAND IS HIT
+        if (scanCount == 0){
+            logger.info("TURNING TOWARDS THE ISLAND *******");
+            // turning so drone is facing the island after
+            newDirection = faceIslandAgain;
+            command.heading(newDirection);
+            compass.updateHeading(newDirection);
+            lastTurnRight = true;
+            scanCount++;
             return command.toString();
         }
-
-        logger.info("***CURRENT TILE IS EMPTY CONTINUE***");
-
-        // logger.info(compass.getDirection());
-        // logger.info(counter);
-
-        // SATE 0: 
-        // ECHO TO SEE IF YOU CAN FLY FORWARDS
-        if (counter2==0){
-            logger.info("************************* STATE 0");
-            logger.info("**COUNTER2 = " + counter2);
-            // should add something to scan if ur current tile is over land idk
-            // so you dont miss the first tile after land finding phase bc rn itll just immediately echo then
-            // go fwd if it wont be sending itself into the ocean
-
-            // echo forwards
-            command.echo(compass.getDirection());
-            counter2=1;
+        // TURN RIGHT WHEN ON THE ISLAND
+        else if(scanCount == 1){
+            logger.info("TURNING RIGHT ONCE FACING THE ISLAND*******");
+            newDirection = compass.getRight();
+            command.heading(newDirection);
+            compass.updateHeading(newDirection);
+            lastTurnRight = true;
+            scanCount++;
             return command.toString();
         }
-        // STATE 1:
-        // FLY FORWARDS, IF YOU CAN
-        // OTHERWISE ECHO LEFT
-        else if (counter2==1){
-            logger.info("************************* STATE 1");
-            logger.info("**COUNTER2 = " + counter2);
-            if (((EchoResponse)response).getFound().equals("GROUND")){
-                // if u see ground fly forwards
+        else{
+            // scan until ocean is FOUND
+            if (scanCount % 2 == 1){
+                
+                logger.info(response.hasOnlyOcean() + " *********************");
+                // hasOnlyOcean returns null for some reason for once of the decisions
+                if (!activateUTurn && response.hasOnlyOcean()!= null && response.hasOnlyOcean()){
+                    // U TURN METHOD HERE (REMEMBER WHAT LAST TURN WAS i.e. if last turn was to the right, next turn should be to the left)
+                    activateUTurn = true;
+                }
+                if (activateUTurn){
+                    return uTurn();
+                }
+
                 command.fly();
-                counter2=3; // straight to scanning state
-            }else if (((EchoResponse)response).getFound().equals("OCEAN")){
-                // otherwise check left
-                command.echo(compass.getLeft());
-                counter2=2;
+                scanCount++;
+                return command.toString();
             }
-            
-            return command.toString();
+            else{
+                logger.info("SCANNING THE ISLAND BUZZ BUZZ *****");
+                command.scan();
+                scanCount++;
+                return command.toString();
+            }
         }
-        // STATE 2:
-        // YOU JUST ECHOED LEFT
-        else if (counter2==2){
-            logger.info("************************* STATE 2");
-            logger.info("**COUNTER2 = " + counter2);
-            if (((EchoResponse)response).getFound().equals("GROUND")){
-                // If you saw ground turn left
+
+        //return command.toString();
+    }
+
+    public String uTurn(){
+
+        if (lastTurnRight){
+
+            // 1/2 turn
+            if (turn==0){
                 command.heading(compass.getLeft());
-                // bc of the weird turns idk if this will send it off land or not but it should be minimal error not a big issue rn
-            }else if (((EchoResponse)response).getFound().equals("OCEAN")){
-                // if you didn't see land you need to go right it's the only other option
-                command.heading(compass.getRight());
+                compass.updateHeading(compass.getLeft());
+                turn=1;
+                return command.toString();
             }
-            counter2=3;
-            return command.toString();
+            else if(turn==1){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=0;
+                lastTurnRight = false;
+                activateUTurn = false;
+                return command.toString();
+            }
         }
-        // STATE 3:
-        // SCANNING
-        else if (counter2==3){
-            logger.info("************************* STATE 3");
-            logger.info("**COUNTER2 = " + counter2);
-            command.scan();
-            // map should auto update bc of the code in drone update for whenever it recieves a scan response
-            counter2=0; // back to the state of looking in front of you
-            return command.toString();
+        else{
+            // 1/2 turn
+            if (turn==0){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=1;
+                return command.toString();
+            }
+            else if (turn==1){
+                command.heading(compass.getLeft());
+                compass.updateHeading(compass.getLeft());
+                turn=0;
+                lastTurnRight = true;
+                activateUTurn = false;
+                return command.toString();
+            }
         }
-
-        // need a way to stop it maybe a state 4 once all the tiles are scanned but idk how to tell if they are all scanned
-
-        // it just yells at me if i don't have this ugh idk
         return command.toString();
+
     }
 
     public String decideLand() {
