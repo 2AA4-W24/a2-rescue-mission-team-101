@@ -174,7 +174,7 @@ public class AirDecision extends Decision {
                 
                 logger.info(response.hasOnlyOcean() + " *********************");
                 // hasOnlyOcean returns null for some reason for once of the decisions
-                if (!activateUTurn && response.hasOnlyOcean()!= null && response.hasOnlyOcean()){
+                if (!activateUTurn && response.hasOnlyOcean()!=null && response.hasOnlyOcean()){
                     // U TURN METHOD HERE (REMEMBER WHAT LAST TURN WAS i.e. if last turn was to the right, next turn should be to the left)
                     activateUTurn = true;
                 }
@@ -201,7 +201,7 @@ public class AirDecision extends Decision {
 
         if (lastTurnRight){
 
-            // 1/2 turn
+            // 1/2 turn, turn left
             if (turn==0){
                 command.heading(compass.getLeft());
                 compass.updateHeading(compass.getLeft());
@@ -220,14 +220,14 @@ public class AirDecision extends Decision {
         else{
             // 1/2 turn
             if (turn==0){
-                command.heading(compass.getLeft());
-                compass.updateHeading(compass.getLeft());
+                command.heading(compass.getRight());
+                compass.updateHeading(compass.getRight());
                 turn=1;
                 return command.toString();
             }
             else if (turn==1){
-                command.heading(compass.getLeft());
-                compass.updateHeading(compass.getLeft());
+                command.heading(compass.getRight());
+                compass.updateHeading(compass.getRight());
                 turn=0;
                 lastTurnRight = true;
                 activateUTurn = false;
