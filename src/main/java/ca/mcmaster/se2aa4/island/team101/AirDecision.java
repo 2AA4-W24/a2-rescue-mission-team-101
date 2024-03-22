@@ -152,7 +152,7 @@ public class AirDecision extends Decision {
     private String creekSearch(){
 
         if (true){
-            if (scanCount >= 500){
+            if (scanCount >= 1200){
                 command.stop();
                 return command.toString();
             }
@@ -235,6 +235,7 @@ public class AirDecision extends Decision {
                         command.fly();
                     return command.toString();
                 } else {
+                    logger.info("STOPPED");
                     command.stop();
                     return command.toString();
                 }
@@ -305,6 +306,8 @@ public class AirDecision extends Decision {
                     command.fly();
                     return command.toString();
                 } else {
+                    logger.info("STOPPED");
+
                     command.stop();
                     return command.toString();
                 }
