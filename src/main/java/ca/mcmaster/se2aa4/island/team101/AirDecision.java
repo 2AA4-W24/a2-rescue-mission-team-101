@@ -13,8 +13,8 @@ public class AirDecision extends Decision {
     private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, scanCount=0, turn=0;
     private int edge=0;
     private int distanceToLand;
-    Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false;
-    String newDirection, faceIslandAgain;
+    Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false, fly = false;
+    String newDirection, faceIslandAgain, lastCommand;
     AreaMap map;
 
     public AirDecision(Drone drone) {
@@ -28,6 +28,8 @@ public class AirDecision extends Decision {
         response = newResponse;
     }
 
+  
+
     @Override
     public String decide() {
         command = new Command();
@@ -37,6 +39,7 @@ public class AirDecision extends Decision {
         if (counter == 0){
             // echo forwards
             command.echo(compass.getDirection());
+
             counter+=1;
             logger.info("***************************** FIRST ECHO");
             logger.info(counter);
@@ -147,28 +150,12 @@ public class AirDecision extends Decision {
     }
 
     private String creekSearch(){
-        // TURN SO DRONE IS FACING ISLAND WHEN LAND IS HIT
-        if (scanCount == 0){
-            logger.info("TURNING TOWARDS THE ISLAND *******");
-            // turning so drone is facing the island after
-            newDirection = faceIslandAgain;
-            command.heading(newDirection);
-            compass.updateHeading(newDirection);
-            lastTurnRight = true;
-            scanCount++;
-            return command.toString();
-        }
-        // TURN RIGHT WHEN ON THE ISLAND
-        else if(scanCount == 1){
-            logger.info("TURNING RIGHT ONCE FACING THE ISLAND*******");
-            newDirection = compass.getRight();
-            command.heading(newDirection);
-            compass.updateHeading(newDirection);
-            lastTurnRight = true;
-            scanCount++;
-            return command.toString();
-        }
-        else{
+
+        if (true){
+            if (scanCount >= 500){
+                command.stop();
+                return command.toString();
+            }
             // scan until ocean is FOUND
             if (scanCount % 2 == 1){
                 
@@ -194,48 +181,113 @@ public class AirDecision extends Decision {
             }
         }
 
-        //return command.toString();
+        return command.toString();
+
     }
 
     public String uTurn(){
 
         if (lastTurnRight){
-
+            logger.info("right u turn ***");
             // 1/2 turn
+            if (fly){
+                command.fly();
+                distanceToLand--;
+                if (distanceToLand <= 0){
+                    lastTurnRight = false;
+                    activateUTurn = false;
+                    turn = 0;
+                    fly = false;
+                }
+                return command.toString();
+            }
+            if (turn==0){
+                command.heading(compass.getRight());
+                compass.updateHeading(compass.getRight());
+                turn++;
+                return command.toString();
+            }
+            else if(turn==1){
+                command.heading(compass.getRight());
+                compass.updateHeading(compass.getRight());
+                turn++;
+                return command.toString();
+            }
+            else if (turn==2){
+                command.echo(compass.getDirection());
+                turn++;
+                return command.toString();
+            } else if (turn == 3){
+                if (((EchoResponse)response).getFound().equals("GROUND")){
+                    distanceToLand = ((EchoResponse)response).getRange();
+                    if (distanceToLand > 0){
+                        fly = true;
+                        distanceToLand--;
+                    } else {
+                        turn = 0;
+                        lastTurnRight = false;
+                        activateUTurn = false;
+                    }
+                        command.fly();
+                    return command.toString();
+                } else {
+                    command.stop();
+                    return command.toString();
+                }
+            }
+        }
+
+        else{
+            logger.info("left u turn ***");
+            // 1/2 turn
+            if (fly){
+                logger.info("distance to land: " + distanceToLand);
+                command.fly();
+                distanceToLand--;
+                if (distanceToLand <= 0){
+                    lastTurnRight = true;
+                    activateUTurn = false;
+                    turn = 0;
+                    fly = false;
+                }
+                return command.toString();
+            }
             if (turn==0){
                 command.heading(compass.getLeft());
                 compass.updateHeading(compass.getLeft());
-                turn=1;
+                turn++;
                 return command.toString();
             }
             else if(turn==1){
                 command.heading(compass.getLeft());
                 compass.updateHeading(compass.getLeft());
-                turn=0;
-                lastTurnRight = false;
-                activateUTurn = false;
+                turn++;
                 return command.toString();
             }
-        }
-        else{
-            // 1/2 turn
-            if (turn==0){
-                command.heading(compass.getLeft());
-                compass.updateHeading(compass.getLeft());
-                turn=1;
+            else if (turn==2){
+                command.echo(compass.getDirection());
+                turn++;
                 return command.toString();
-            }
-            else if (turn==1){
-                command.heading(compass.getLeft());
-                compass.updateHeading(compass.getLeft());
-                turn=0;
-                lastTurnRight = true;
-                activateUTurn = false;
-                return command.toString();
+            } else if (turn == 3){
+                if (((EchoResponse)response).getFound().equals("GROUND")){
+                    distanceToLand = ((EchoResponse)response).getRange();
+                    if (distanceToLand > 0){
+                        fly = true;
+                        distanceToLand--;
+                    } else {
+                        turn = 0;
+                        lastTurnRight = true;
+                        activateUTurn = false;
+                    }
+                    command.fly();
+                    return command.toString();
+                } else {
+                    command.stop();
+                    return command.toString();
+                }
             }
         }
         return command.toString();
-
     }
 
     public String decideLand() {
