@@ -27,9 +27,9 @@ public class Tile {
         this.siteID = siteID;
     }
 
-    public void fillTile(ScanResponse scanResponse) {
-        // list of creeks sad face
-        JSONArray creeks = scanResponse.getCreeks();
+    public void fillTile(ScanResponse scan) {
+
+        JSONArray creeks = scan.getCreeks();
         if (creeks.length() > 0) {
             StringBuilder creekIDs = new StringBuilder();
             for (int i = 0; i < creeks.length(); i++) {
@@ -42,7 +42,7 @@ public class Tile {
         }
 
         // Site ID to is first site in the list it has 
-        JSONArray sites = scanResponse.getSites();
+        JSONArray sites = scan.getSites();
         if (sites.length() > 0) {
             this.siteID = sites.getString(0); 
         }
