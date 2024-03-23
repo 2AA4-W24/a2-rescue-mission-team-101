@@ -8,12 +8,6 @@ public abstract class Traveler {
 
     public Traveler(){}
 
-    public String getLastMove(){
-        return nextMoveStr; 
-    }
-
-    public abstract void setPrevMove(String command);
-
     public abstract void update(Response<?> response);
 
 }

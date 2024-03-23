@@ -10,8 +10,7 @@ public class Explorer implements IExplorerRaid {
     private final Logger logger = LogManager.getLogger();
     private JSONInitialization initializer;
     private Drone drone;
-    String decisionType;
-    
+
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
@@ -31,8 +30,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public void acknowledgeResults(String s) {
-        decisionType = drone.getLastType();
-        Response<?> response = new Response(decisionType, s);
+        Response<?> response = new Response(drone.getLastType(), s);
         logger.info("** Response received:\n"+response.toString());
         //logger.info("The cost of the action was {}", r.getCost());
         //logger.info("Additional information received: {}", response.getExtraInfo());
