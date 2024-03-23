@@ -1,11 +1,10 @@
 package ca.mcmaster.se2aa4.island.team101;
-import static ca.mcmaster.se2aa4.island.team101.CommandStrings.*;
 
 public class Drone{
 
     private Integer charge;
     private AreaMap map;
-    private String latestType = ECHO;
+    private Response latestResponse;
     private Compass compass;
     private DroneController controller;
 
@@ -13,29 +12,34 @@ public class Drone{
         this.charge = charge;
         this.map = map;
         this.compass = compass;
+        this.controller = new DroneController(this);
     }
 
     public void update(Response response){
-        latestType = response.getType();
+        latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
     }
 
     public String getNextMove(){
-        return controller.getNextMove(); // will call on decision logic from controller to each state
-        // returns the decision string
+        return controller.getNextMove();
     }
 
-    // for decision
     public String latestType(){
-        return latestType;
+        return latestResponse.getType();
+    }
+
+    public Response getLatestResponse(){
+        return latestResponse;
+    }
+    
+    public Compass getCompass(){
+        return compass;
     }
 
     private void setCharge(Integer cost) {
         charge -= cost;
-        if (charge <= 0) {
-            charge = 0;
-        }
+        if (charge <= 0) charge = 0;
     }
 
 }

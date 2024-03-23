@@ -54,4 +54,13 @@ public class ScanResponse extends Response{
         return this.sites;
     }
 
+    public Boolean isAllOcean() {
+        for (int i = 0; i < biomes.length(); i++) {
+            if (!("OCEAN".equals(biomes.optString(i)))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
 }

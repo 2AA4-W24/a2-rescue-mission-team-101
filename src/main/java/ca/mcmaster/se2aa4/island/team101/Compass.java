@@ -15,37 +15,63 @@ public class Compass {
         position = new Point(0,0);
     }
 
-    private Point turn(Point p, String newHeading){
-        advance(p);
+    private void turn(String newHeading){
+        advance();
         direction = newHeading;
-        advance(p);
-        return p;
-    }
-    public void updateHeading(String newDirection){
-        direction = newDirection;
+        advance();
     }
 
-    private Point advance(Point p){
+    public void advance(){
         switch(direction){
             case NORTH:
-                p.y--;
+                position.y--;
                 break;
             case EAST:
-                p.x++;
+                position.x++;
                 break;
             case SOUTH:
-                p.y++;
+                position.y++;
                 break;
             default:
-                p.x--;
+                position.x--;
                 break;
         }
-        return p;
     }
 
-    public void turn(String newHeading){
-        position = turn(position, newHeading);
+    public void turnRight(){
+        switch(direction){
+            case NORTH:
+                turn(EAST);
+                break;
+            case EAST:
+                turn(SOUTH);
+                break;
+            case SOUTH:
+                turn(WEST);
+                break;
+            default:
+                turn(NORTH);
+                break;
+        }
     }
+
+    public void turnLeft(){
+        switch(direction){
+            case NORTH:
+                turn(WEST);
+                break;
+            case EAST:
+                turn(NORTH);
+                break;
+            case SOUTH:
+                turn(EAST);
+                break;
+            default:
+                turn(SOUTH);
+                break;
+        }
+    }
+
     public String getRight(){
         switch(direction){
             case NORTH:
@@ -70,10 +96,6 @@ public class Compass {
             default:
                 return SOUTH;
         }
-    }
-
-    public void advance(){
-        position = advance(position);
     }
 
     public Point getPosition(){
