@@ -39,6 +39,11 @@ public class Command{
         command.put("action", SCAN);
     }
 
+    // Not a real command in the hidden stuff, but an internal one to help the FSM
+    public void hold(){
+        command.put("action", HOLD);
+    }
+
     // to use in Decision logic
     public String toString(){
         return command.toString();

@@ -184,75 +184,8 @@ public class AirDecision {
     public String uTurn(){
 
         if (lastTurnRight){
-<<<<<<< HEAD
 
             // 1/2 turn, turn left
-=======
-            logger.info("right u turn ***");
-            // 1/2 turn
-            if (fly){
-                command.fly();
-                distanceToLand--;
-                if (distanceToLand <= 0){
-                    lastTurnRight = false;
-                    activateUTurn = false;
-                    turn = 0;
-                    fly = false;
-                }
-                return command.toString();
-            }
-            if (turn==0){
-                command.heading(compass.getRight());
-                compass.updateHeading(compass.getRight());
-                turn++;
-                return command.toString();
-            }
-            else if(turn==1){
-                command.heading(compass.getRight());
-                compass.updateHeading(compass.getRight());
-                turn++;
-                return command.toString();
-            }
-            else if (turn==2){
-                command.echo(compass.getDirection());
-                turn++;
-                return command.toString();
-            } else if (turn == 3){
-                if (((EchoResponse)response).getFound().equals("GROUND")){
-                    distanceToLand = ((EchoResponse)response).getRange();
-                    if (distanceToLand > 0){
-                        fly = true;
-                        distanceToLand--;
-                    } else {
-                        turn = 0;
-                        lastTurnRight = false;
-                        activateUTurn = false;
-                    }
-                        command.fly();
-                    return command.toString();
-                } else {
-                    command.stop();
-                    return command.toString();
-                }
-            }
-        }
-
-        else{
-            logger.info("left u turn ***");
-            // 1/2 turn
-            if (fly){
-                logger.info("distance to land: " + distanceToLand);
-                command.fly();
-                distanceToLand--;
-                if (distanceToLand <= 0){
-                    lastTurnRight = true;
-                    activateUTurn = false;
-                    turn = 0;
-                    fly = false;
-                }
-                return command.toString();
-            }
->>>>>>> f0e5e18 (fixed bug where scan would miss land and mess up the flight. now the entire island can be scanned)
             if (turn==0){
                 command.heading(compass.getLeft());
                 compass.updateHeading(compass.getLeft());
@@ -265,7 +198,6 @@ public class AirDecision {
                 turn++;
                 return command.toString();
             }
-<<<<<<< HEAD
         }
         else{
             // 1/2 turn
@@ -281,11 +213,6 @@ public class AirDecision {
                 turn=0;
                 lastTurnRight = true;
                 activateUTurn = false;
-=======
-            else if (turn==2){
-                command.echo(compass.getDirection());
-                turn++;
->>>>>>> f0e5e18 (fixed bug where scan would miss land and mess up the flight. now the entire island can be scanned)
                 return command.toString();
             } else if (turn == 3){
                 if (((EchoResponse)response).getFound().equals("GROUND")){
