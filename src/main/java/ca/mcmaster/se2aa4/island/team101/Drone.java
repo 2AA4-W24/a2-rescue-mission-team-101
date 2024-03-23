@@ -1,5 +1,8 @@
 package ca.mcmaster.se2aa4.island.team101;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Drone{
 
     private Integer charge;
@@ -7,6 +10,9 @@ public class Drone{
     private Response latestResponse;
     private Compass compass;
     private DroneController controller;
+
+    private final Logger logger = LogManager.getLogger();
+
 
     public Drone(Integer charge, AreaMap map, Compass compass){
         this.charge = charge;
@@ -16,12 +22,14 @@ public class Drone{
     }
 
     public void update(Response response){
+        logger.info("****************IN DRONE UPDATE******************");
         latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
     }
 
     public String getNextMove(){
+        logger.info("****************IN DRONE GETNEXTMOVE******************");
         return controller.getNextMove();
     }
 

@@ -2,10 +2,16 @@
 
 package ca.mcmaster.se2aa4.island.team101;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class State4 extends State{
 
     private ScanResponse latestScan;
     private Boolean allOcean;
+
+    private final Logger logger = LogManager.getLogger();
+
 
     public State4(Drone drone, DroneContext context){ 
         super(drone, context); 
@@ -15,6 +21,9 @@ public class State4 extends State{
 
     @Override
     public String getNextMove(){
+
+        logger.info("****************IN STATE 4 GETNEXTMOVE******************");
+
         if(context.scanCount >= 1200){
             command.stop();
             return command.toString();

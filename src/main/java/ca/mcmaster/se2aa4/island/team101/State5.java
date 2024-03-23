@@ -3,11 +3,16 @@
 
 package ca.mcmaster.se2aa4.island.team101;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class State5 extends State{
 
     private String found;
     private int range;
     private EchoResponse latestEcho;
+
+    private final Logger logger = LogManager.getLogger();
 
     public State5(Drone drone, DroneContext context){ 
         super(drone, context); 
@@ -18,6 +23,8 @@ public class State5 extends State{
 
     @Override
     public String getNextMove(){
+
+        logger.info("****************IN STATE 5 GETNEXTMOVE******************");
 
         if (context.stage%4==0){
 

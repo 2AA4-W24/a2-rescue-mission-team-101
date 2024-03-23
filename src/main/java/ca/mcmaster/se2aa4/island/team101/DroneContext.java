@@ -1,8 +1,13 @@
 package ca.mcmaster.se2aa4.island.team101;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DroneContext{
 
     private State droneState;
+
+    private final Logger logger = LogManager.getLogger();
 
 
     // make getters and setters instead of public once you know which ones to keep and which to kill
@@ -17,6 +22,7 @@ public class DroneContext{
     }
 
     public String getNextState(){
+        logger.info("****************IN DRONE CONTEXT GET NEXT STATE******************");
         return this.droneState.getNextState();
     }
 
