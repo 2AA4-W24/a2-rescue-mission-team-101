@@ -8,33 +8,30 @@ import eu.ace_design.island.bot.IExplorerRaid;
 public class Explorer implements IExplorerRaid {
 
     private final Logger logger = LogManager.getLogger();
-    private JSONInitialization initializer;
+    private Initializer initializer;
     private Drone drone;
+    private ResponseFactory responseFactory;
 
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
-        initializer = new JSONInitialization(s);
+        initializer = new Initializer(s);
         logger.info(initializer.toString());
-        drone = new Drone(initializer);
-        //logger.info("The drone is facing {}", initializer.getDirection());
-        //logger.info("Battery level is {}", initializer.getBatteryLevel());
+        drone = initializer.assembleDrone();
     }
 
     @Override
     public String takeDecision() {
-        String decision = drone.droneNextMove();
+        String decision = drone.getNextMove();
         logger.info(decision);
         return decision;
     }
 
     @Override
     public void acknowledgeResults(String s) {
-        Response<?> response = new Response(drone.getLastType(), s);
-        logger.info("** Response received:\n"+response.toString());
-        //logger.info("The cost of the action was {}", r.getCost());
-        //logger.info("Additional information received: {}", response.getExtraInfo());
-        drone.update(response);
+        Response r = responseFactory.getResponse(drone.latestType(), s);
+        logger.info("** Response received:\n"+r.toString());
+        drone.update(r);
     }
 
     @Override

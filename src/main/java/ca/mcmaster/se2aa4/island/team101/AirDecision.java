@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AirDecision {
-    private final Logger logger = LogManager.getLogger();
 
     private Command command;
     private GenericResponse response;
@@ -24,7 +23,6 @@ public class AirDecision {
     public void updateResponse(GenericResponse newResponse){
         response = newResponse;
     }
-
 
     // the only reason RESPONSE shows up in here is for hasonlyocean. there needs to be a better way to do that or something to deal with that in here
     // it'll only happen for a scanresponse. scanresponse has a getBiomes. 
@@ -293,8 +291,4 @@ public class AirDecision {
         return command.toString();
     }
 
-    @Override
-    public String getType(){
-        return command.getType();
-    }
 }
