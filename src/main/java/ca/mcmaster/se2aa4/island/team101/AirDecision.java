@@ -3,7 +3,7 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AirDecision extends Decision {
+public class AirDecision {
     private final Logger logger = LogManager.getLogger();
 
     private Command command;
@@ -11,25 +11,23 @@ public class AirDecision extends Decision {
     private Compass compass;
 
     private int counter = 0, distanceToEdge = 0, eta = 0, stage = 0, scanCount=0, turn=0;
-    private int edge=0;
+    private int edge=0; // doesnt need to
     private int distanceToLand;
     Boolean facingLand=false, atLand=false, scanComplete=false, lastTurnRight = false, activateUTurn = false, fly = false;
     String newDirection, faceIslandAgain, lastCommand;
-    AreaMap map;
 
     public AirDecision(Drone drone) {
         super(drone);
-        this.compass = drone.getCompass();
-        //this.map = drone.getMap();
-        //this.response = response;
+        this.compass = drone.getCompass(); // we use a drone just to get the compass LOL
     }
     
     public void updateResponse(GenericResponse newResponse){
         response = newResponse;
     }
 
-  
 
+    // the only reason RESPONSE shows up in here is for hasonlyocean. there needs to be a better way to do that or something to deal with that in here
+    // it'll only happen for a scanresponse. scanresponse has a getBiomes. 
     @Override
     public String decide() {
         command = new Command();
@@ -152,7 +150,7 @@ public class AirDecision extends Decision {
     private String creekSearch(){
 
         if (true){
-            if (scanCount >= 1200){
+            if (scanCount >= 500){
                 command.stop();
                 return command.toString();
             }
@@ -235,7 +233,6 @@ public class AirDecision extends Decision {
                         command.fly();
                     return command.toString();
                 } else {
-                    logger.info("STOPPED");
                     command.stop();
                     return command.toString();
                 }
@@ -306,8 +303,6 @@ public class AirDecision extends Decision {
                     command.fly();
                     return command.toString();
                 } else {
-                    logger.info("STOPPED");
-
                     command.stop();
                     return command.toString();
                 }

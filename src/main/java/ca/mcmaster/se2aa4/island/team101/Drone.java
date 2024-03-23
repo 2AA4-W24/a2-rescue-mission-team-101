@@ -6,15 +6,20 @@ import org.apache.logging.log4j.Logger;
 public class Drone extends Traveler {
 
     private final Logger logger = LogManager.getLogger(Drone.class);
+
+    
     private Integer charge;
+
     private Decision nextMove; 
+
     private Compass compass; // this has the position
     private AreaMap map;
+
     private String lastCommand;
+
     private Response<?> lastResponse;
 
     public Drone(JSONInitialization initializer) {
-        this.initializer = initializer;
         this.charge = initializer.getBatteryLevel();
         this.compass = new Compass(initializer.getDirection());
         this.lastCommand = "echo";
@@ -22,25 +27,10 @@ public class Drone extends Traveler {
         this.nextMove = new AirDecision(this);
     }
 
-    @Override
-    public void setPrevMove(String command) {
-        lastCommand = command;
-    }
-
-    @Override
-    public String getLastMove() {
-        return lastCommand;
-    }
 
     @Override
     public void update(Response<?> response) {
 
-        logger.info("IN DRONE UPDATE");
-        lastResponse = response;
-
-        // Handle the response based on the command type
-        GenericResponse typedResponse = response.handleResponse();
-        setPrevMove(typedResponse.getType());
         nextMove.updateResponse(typedResponse);
 
         // Set the charge based on the response cost
@@ -60,25 +50,9 @@ public class Drone extends Traveler {
     public String droneNextMove(){
         return nextMove.decide();
     }
-    
-    public String getLastType(){
-        return nextMove.getType();
-    }
-
-    public Response<?> getResponse() {
-        return lastResponse;
-    }
-
-    public Integer getCharge() {
-        return charge;
-    }
 
     public Compass getCompass(){
         return compass;
-    }
-
-    public AreaMap getMap(){
-        return map;
     }
 
     private void setCharge(Integer cost) {
