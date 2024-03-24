@@ -16,7 +16,7 @@ public class State1 extends State{
     }
 
     @Override
-    public String getNextMove(){
+    public Command getNextMove(){
         this.command = new Command();
 
         logger.info("****************IN STATE 1 GETNEXTMOVE******************");
@@ -24,7 +24,7 @@ public class State1 extends State{
         command.echo(compass.getDirection());
         logger.info(command.toString());
 
-        return command.toString();
+        return command;
     } 
 
     @Override

@@ -15,7 +15,6 @@ public class ResponseFactory{
 
     
     public Response getResponse(String type, String rawData){
-        logger.info("****************IN RESPONSEFACTORY GETRESPONSE******************");
         parse(rawData);
         if(("echo").equalsIgnoreCase(type)) return new EchoResponse(cost, extras, status);
         else if(("scan").equalsIgnoreCase(type)) return new ScanResponse(cost, extras, status);

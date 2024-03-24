@@ -10,21 +10,13 @@ import org.apache.logging.log4j.Logger;
 public class StateFindIslandFly extends State{
     
     private final Logger logger = LogManager.getLogger();
-    private EchoResponse latestEcho;
-    private String found;
-    private int range;
 
     public StateFindIslandFly(Drone drone, DroneContext context){ 
         super(drone, context); 
-        latestEcho = (EchoResponse) latestResponse;
-        found = latestEcho.getFound();
-        range = latestEcho.getRange();
-        logger.info(context.left + " CONTEXT LEFT");
-
     }
 
     @Override
-    public String getNextMove(){
+    public Command getNextMove(){
         this.command = new Command();
         logger.info(context.left + " CONTEXT LEFT");
 
@@ -32,7 +24,7 @@ public class StateFindIslandFly extends State{
             logger.info("********************** LAST ECHO WAS LEFT ECHO");
             context.left = false;
             command.echo(compass.getRight());
-            return command.toString();
+            return command;
         }
 
         
@@ -43,11 +35,11 @@ public class StateFindIslandFly extends State{
             command.echo(compass.getLeft());
             logger.info(command.toString() + "COMMAND");
 
-            return command.toString();
+            return command;
         }
 
     
-        return command.toString();
+        return command;
 
     } 
 

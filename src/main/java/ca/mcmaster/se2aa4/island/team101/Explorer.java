@@ -18,18 +18,15 @@ public class Explorer implements IExplorerRaid {
         initializer = new Initializer(s);
         logger.info(initializer.toString());
         drone = initializer.assembleDrone();
-        logger.info("****************IN EXPLORER GOT THE NEW DRONE******************");
         responseFactory = new ResponseFactory();
     }
 
     @Override
     public String takeDecision() {
-        logger.info("****************IN TAKEDECISION GETTING NEXT MOVE******************");
-        String decision = drone.getNextMove();
-        logger.info("****************GOT NEXT MOVE******************");
+        Command decision = drone.getNextMove();
         logger.info(decision);
         // it  transitions here
-        return decision;
+        return decision.toString();
     }
 
     @Override

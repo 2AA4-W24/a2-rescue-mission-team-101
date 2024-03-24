@@ -23,10 +23,10 @@ public class StateFirstEchoAnalyzer extends State{
     }
 
     @Override
-    public String getNextMove(){
+    public Command getNextMove(){
+        this.command = new Command();
         command.fly();
-        
-        return command.toString();
+        return command;
 
     } 
 

@@ -7,29 +7,39 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class StateFlyForward extends State{
+public class StateUTurnEchoAnalyzer1 extends State{
     
     private final Logger logger = LogManager.getLogger();
+    private EchoResponse latestEcho;
+    private String found;
+    private int range;
 
-    public StateFlyForward(Drone drone, DroneContext context){ 
+    public StateUTurnEchoAnalyzer1(Drone drone, DroneContext context){ 
         super(drone, context); 
+        latestEcho = (EchoResponse) latestResponse;
+        found = latestEcho.getFound();
+        range = latestEcho.getRange();
     }
 
     @Override
     public Command getNextMove(){
         this.command = new Command();
         command.fly();
-        context.distanceToLand --;
         return command;
+
     } 
 
     @Override
     public String getNextState(){
-        if (context.distanceToLand <= 0){
-            return "StateCreekSearchFly";
-        } else {
+        this.command = new Command();
+
+        if (found.equals("GROUND")){
+            context.distanceToLand = range;
             return "StateFlyForward";
+        } else {
+            return "StateExecuteUTurn";
         }
     }
+
 
 }

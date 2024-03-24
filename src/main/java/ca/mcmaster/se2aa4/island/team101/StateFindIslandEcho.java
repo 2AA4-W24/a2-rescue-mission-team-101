@@ -23,7 +23,7 @@ public class StateFindIslandEcho extends State{
     }
 
     @Override
-    public String getNextMove(){
+    public Command getNextMove(){
         this.command = new Command();
 
         if (context.left){
@@ -35,7 +35,7 @@ public class StateFindIslandEcho extends State{
                 command.fly();
                 context.distanceToEdge--;
             }
-            return command.toString();
+            return command;
         }
 
         
@@ -48,10 +48,10 @@ public class StateFindIslandEcho extends State{
                 command.fly();
                 context.distanceToEdge--;
             }
-            return command.toString();
+            return command;
         }
     
-        return command.toString();
+        return command;
 
     } 
 

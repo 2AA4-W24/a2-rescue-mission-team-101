@@ -18,7 +18,7 @@ public abstract class State{
         logger.info(this.latestResponse); 
     }
 
-    public abstract String getNextMove();
+    public abstract Command getNextMove();
 
     public abstract String getNextState();
 

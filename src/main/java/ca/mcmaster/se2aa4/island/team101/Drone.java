@@ -10,6 +10,7 @@ public class Drone{
     private Response latestResponse;  
     private Compass compass;
     private DroneController controller;
+    private Command latestCommand;
 
     private final Logger logger = LogManager.getLogger();
 
@@ -22,8 +23,7 @@ public class Drone{
     }
 
     public void update(Response response){
-        logger.info("****************IN DRONE UPDATE******************");
-        logger.info("RESPONSE " + response);
+        logger.info("RESPONSE " + latestResponse);
         latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
@@ -31,17 +31,16 @@ public class Drone{
 
     }
 
-    public String getNextMove(){
-        logger.info("****************IN DRONE GETNsfhwfhishEXTMOVE******************");
-        logger.info("****************IN DRONE GETNEXTMOVE******************");
-        return controller.getNextMove();
+    public Command getNextMove(){
+        latestCommand = controller.getNextMove();
+        return latestCommand;
     }
 
     public String latestType(){
-        if (latestResponse == null){
+        if (latestCommand == null){
             return "echo";
         }
-        return latestResponse.getType();
+        return latestCommand.getType();
     }
 
     public Response getLatestResponse(){
