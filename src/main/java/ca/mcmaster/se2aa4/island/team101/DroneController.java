@@ -16,51 +16,44 @@ public class DroneController {
         context.setState(state1);
     }
 
-    private String getNextMove() {
+    public String getNextMove() {
         String nextMove = context.getNextMove();
         logger.info("123pfwf3241h" + nextMove);
-        if(!nextMove.equals("hold")){  
-            logger.info("123123532g23gw43gh" + nextMove);
-            // move this transition into drone.update
-        }
         return nextMove;
 
     }
 
-
-
-    public String temp(){
-        String nextMove = getNextMove();
-        transition();
-        if(nextMove.equals("hold")){ 
-            logger.info("123pfwf3241h" + nextMove);
-            nextMove = getNextMove();
-
-        }
-        return nextMove;
-    }
     
     public void transition() {
         String nextString = context.getNextState();
-        logger.info("1231h" + context.getNextState());
         State next = null;
-
+        logger.info(nextString + " NEXT STRING");
         switch(nextString){
             case "State1":
                 next = state1;
+                break;
+
             case "StateFirstEchoAnalyzer":
                 state2 = new StateFirstEchoAnalyzer(drone, context);
                 next = state2;
+                break;
             case "StateFlyForward":
                 state3 = new StateFlyForward(drone, context);
                 next = state3;
+                break;
+
             case "StateFindIslandFly":
                 state4 = new StateFindIslandFly(drone, context);
 
                 next = state4;
-            default:
+                break;
+
+            case "StateFindIslandEcho":
                 state5 = new StateFindIslandEcho(drone, context);
                 next = state5;
+                break;
+            default: 
+                break;
         }
 
         if(next != null){

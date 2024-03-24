@@ -17,6 +17,8 @@ public class StateFlyForward extends State{
 
     @Override
     public String getNextMove(){
+        this.command = new Command();
+
         if (context.distanceToLand <= 0){
             command.stop();
         } else {

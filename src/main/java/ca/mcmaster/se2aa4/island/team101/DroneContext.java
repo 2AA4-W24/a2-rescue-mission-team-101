@@ -27,7 +27,6 @@ public class DroneContext{
     }
 
     public String getNextMove(){
-        logger.info("getnextmove" + this.droneState.getNextMove().toString());
         return this.droneState.getNextMove();
     }
 
