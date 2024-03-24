@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-public interface CommandReciever {
+public interface CommandReceiver {
 
     void fly();
     void stop();

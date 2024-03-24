@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 import static ca.mcmaster.se2aa4.island.team101.CommandStrings.*;
 
-public class Command implements CommandReciever{
+public class Command implements CommandReceiver{
 
     private JSONObject command = new JSONObject();
     private JSONObject parameters = new JSONObject();
