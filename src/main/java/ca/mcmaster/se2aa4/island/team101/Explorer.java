@@ -15,7 +15,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
-        initializer = new Initializer(s);
+        initializer = Initializer.getInstance(s); // Use singleton instance of initializer
         logger.info(initializer.toString());
         drone = initializer.assembleDrone();
         responseFactory = new ResponseFactory();

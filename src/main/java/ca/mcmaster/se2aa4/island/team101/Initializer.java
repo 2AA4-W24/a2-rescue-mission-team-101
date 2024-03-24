@@ -8,6 +8,7 @@ import org.json.JSONTokener;
 
 
 public class Initializer {
+    private static Initializer instance; // Singleton instance
     private String rawData;
     private Integer budget;
     private AreaMap map;
@@ -17,6 +18,14 @@ public class Initializer {
 
     public Initializer(String data){
         this.rawData = data;
+    }
+
+    // Get singleton instance 
+    public static Initializer getInstance(String data) {
+        if (instance == null) {
+            instance = new Initializer(data);
+        }
+        return instance;
     }
 
     private void initialize(String rawData){
