@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 import static ca.mcmaster.se2aa4.island.team101.CommandStrings.*;
 
-public class Command{
+public class Command implements CommandReciever{
 
     private JSONObject command = new JSONObject();
     private JSONObject parameters = new JSONObject();
@@ -11,16 +11,19 @@ public class Command{
     public Command(){}
 
     // Ex. { "action": "fly" }
+    @Override
     public void fly(){
         command.put("action", FLY);
     }
 
     // Ex. { "action": "stop" }
+    @Override
     public void stop(){
         command.put("action", STOP);
     }
 
     // Ex. { "action": "heading", "parameters": { "direction": "N" } }
+    @Override
     public void heading(String direction){
         parameters.put("direction", direction);
         command.put("action", HEADING);
@@ -28,6 +31,7 @@ public class Command{
     }
 
     // Ex. { "action": "echo", "parameters": { "direction": "E" } }
+    @Override
     public void echo(String direction){
         parameters.put("direction", direction);
         command.put("action", ECHO);
@@ -35,22 +39,19 @@ public class Command{
     }
 
     // Ex. { "action": "scan" }
+    @Override
     public void scan(){
         command.put("action", SCAN);
     }
 
-    // Not a real command in the hidden stuff, but an internal one to help the FSM
-    public void hold(){
-        command.put("action", HOLD);
-    }
-
-    // to use in Decision logic
-    public String toString(){
-        return command.toString();
-    }
-
+    @Override
     public String getType() {
         return command.optString("action", null);
+    }
+
+    @Override
+    public String toString(){
+        return command.toString();
     }
 
 }
