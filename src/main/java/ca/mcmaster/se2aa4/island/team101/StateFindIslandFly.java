@@ -19,11 +19,14 @@ public class StateFindIslandFly extends State{
         latestEcho = (EchoResponse) latestResponse;
         found = latestEcho.getFound();
         range = latestEcho.getRange();
+        logger.info(context.left + " CONTEXT LEFT");
+
     }
 
     @Override
     public String getNextMove(){
-
+        this.command = new Command();
+        logger.info(context.left + " CONTEXT LEFT");
 
         if (context.left){
             logger.info("********************** LAST ECHO WAS LEFT ECHO");
@@ -33,10 +36,13 @@ public class StateFindIslandFly extends State{
         }
 
         
-        if (!context.left){
+        else if (!context.left){
             logger.info("********************** LAST ECHO WAS RIGHT ECHO");
+
             context.left = true;
             command.echo(compass.getLeft());
+            logger.info(command.toString() + "COMMAND");
+
             return command.toString();
         }
 

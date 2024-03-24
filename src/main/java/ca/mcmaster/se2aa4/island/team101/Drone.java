@@ -27,14 +27,14 @@ public class Drone{
         latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
+        controller.transition();
+
     }
 
     public String getNextMove(){
         logger.info("****************IN DRONE GETNsfhwfhishEXTMOVE******************");
-        logger.info("***dadkijasiuadadad********" + controller.temp());
         logger.info("****************IN DRONE GETNEXTMOVE******************");
-
-        return controller.temp();
+        return controller.getNextMove();
     }
 
     public String latestType(){

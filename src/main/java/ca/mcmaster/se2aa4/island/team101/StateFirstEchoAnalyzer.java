@@ -24,7 +24,7 @@ public class StateFirstEchoAnalyzer extends State{
 
     @Override
     public String getNextMove(){
-        command.hold();
+        command.fly();
         
         return command.toString();
 
@@ -32,12 +32,14 @@ public class StateFirstEchoAnalyzer extends State{
 
     @Override
     public String getNextState(){
+        this.command = new Command();
+
         if (found.equals("GROUND")){
             context.distanceToLand = range;
             return "StateFlyForward";
         } else {
             context.edge = range;
-            return "StateFindIslandEcho";
+            return "StateFindIslandFly";
         }
     }
 
