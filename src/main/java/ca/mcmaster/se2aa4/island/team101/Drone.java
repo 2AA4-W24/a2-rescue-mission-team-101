@@ -37,6 +37,10 @@ public class Drone{
         return controller.getNextMove();
     }
 
+    public String getClosestCreek(){
+        return map.FindClosestCreek();
+    }
+
     public String latestType(){
         if (latestResponse == null){
             return "echo";
