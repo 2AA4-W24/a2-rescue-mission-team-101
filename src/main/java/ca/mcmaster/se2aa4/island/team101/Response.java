@@ -4,9 +4,22 @@ import org.json.JSONObject;
 
 public abstract class Response{
 
-    public abstract int getCost();
-    public abstract JSONObject getExtras();
-    public abstract String getStatus();
+    protected int cost;
+    protected JSONObject extras;
+    protected String status;
+
+    public int getCost(){
+        return cost;
+    }
+
+    public JSONObject getExtras(){
+        return extras;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
     @Override
     public String toString(){
         return "Cost = "+this.getCost() + "Extras = " + this.getExtras() + "Status = " + this.getStatus();

@@ -3,11 +3,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 public class ScanResponse extends Response{
-    private int cost;
-    private JSONObject extras;
-    private String status;
 
-    // Specific to Scan -> Liskov
     private JSONArray biomes;
     private JSONArray creeks;
     private JSONArray sites;
@@ -26,22 +22,6 @@ public class ScanResponse extends Response{
         return this.cost;
     }
 
-    @Override
-    public String getStatus(){
-        return this.status;
-    }
-
-    @Override
-    public JSONObject getExtras(){
-        return this.extras;
-    }
-
-    @Override
-    public String getType(){
-        return "scan";
-    }
-
-    // Specific to Scan -> Liskov
     public JSONArray getBiomes(){
         return this.biomes;
     }
