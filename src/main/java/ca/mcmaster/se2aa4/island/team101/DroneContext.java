@@ -12,7 +12,7 @@ public class DroneContext{
 
     // make getters and setters instead of public once you know which ones to keep and which to kill
     public int distanceToEdge = 0, eta = 0, scanCount = 0, turn = 0, stage = 0, edge = 0, distanceToLand;
-    public Boolean facingLand = false, atLand = false, scanComplete = false, lastTurnRight = false, activateUTurn = false, fly = false;
+    public Boolean facingLand = false, atLand = false, scanComplete = false, lastTurnRight = false, activateUTurn = false, fly = false, left = false;
     public String newDirection, faceIslandAgain;
 
     public DroneContext(){}
@@ -27,6 +27,7 @@ public class DroneContext{
     }
 
     public String getNextMove(){
+        logger.info("getnextmove" + this.droneState.getNextMove().toString());
         return this.droneState.getNextMove();
     }
 

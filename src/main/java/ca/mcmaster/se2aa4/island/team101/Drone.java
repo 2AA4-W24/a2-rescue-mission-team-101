@@ -7,7 +7,7 @@ public class Drone{
 
     private Integer charge;
     private AreaMap map;
-    private Response latestResponse;
+    private Response latestResponse;  
     private Compass compass;
     private DroneController controller;
 
@@ -23,17 +23,24 @@ public class Drone{
 
     public void update(Response response){
         logger.info("****************IN DRONE UPDATE******************");
+        logger.info("RESPONSE " + response);
         latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
     }
 
     public String getNextMove(){
+        logger.info("****************IN DRONE GETNsfhwfhishEXTMOVE******************");
+        logger.info("***dadkijasiuadadad********" + controller.temp());
         logger.info("****************IN DRONE GETNEXTMOVE******************");
-        return controller.getNextMove();
+
+        return controller.temp();
     }
 
     public String latestType(){
+        if (latestResponse == null){
+            return "echo";
+        }
         return latestResponse.getType();
     }
 
