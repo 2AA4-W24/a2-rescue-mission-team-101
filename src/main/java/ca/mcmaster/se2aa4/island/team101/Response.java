@@ -7,12 +7,13 @@ public abstract class Response{
     public abstract int getCost();
     public abstract JSONObject getExtras();
     public abstract String getStatus();
-
     @Override
     public String toString(){
         return "Cost = "+this.getCost() + "Extras = " + this.getExtras() + "Status = " + this.getStatus();
     }
 
-    public abstract String getType();
+    public String getType(){
+        return "echo";
+    }
 
 }

@@ -20,12 +20,14 @@ public class State1 extends State{
         logger.info("****************IN STATE 1 GETNEXTMOVE******************");
 
         command.echo(compass.getDirection());
+        logger.info(command.toString());
+
         return command.toString();
     } 
 
     @Override
     public String getNextState(){
-        return "state2";
+        return "StateFirstEchoAnalyzer";
     }
 
 }

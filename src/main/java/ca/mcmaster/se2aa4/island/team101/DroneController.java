@@ -1,55 +1,66 @@
 package ca.mcmaster.se2aa4.island.team101;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DroneController {
 
     private DroneContext context;
+    private Drone drone;
     private State state1, state2, state3, state4, state5, state6;
-    
+    private final Logger logger = LogManager.getLogger();
+
     public DroneController(Drone drone) {
-        context = new DroneContext();
-
         state1 = new State1(drone, context);
-        state2 = new State2(drone, context);
-        state3 = new State3(drone, context);
-        state4 = new State4(drone, context);
-        state5 = new State5(drone, context);
-        state6 = new State6(drone, context);
-
+        this.drone = drone;
+        context = new DroneContext();
         context.setState(state1);
     }
 
-    public String getNextMove() {
+    private String getNextMove() {
         String nextMove = context.getNextMove();
-        if(nextMove.equals("hold")){    // if you couldn't get a move from the last state, but rather only a transition to a 
-                                                // next state where u CAN get the move, then just transition and get the move from the 
-                                                //next state instead. Maybe less hard code hold but it's fine for now. we could add it as a cmd or smth.
-            transition();
-            nextMove = context.getNextMove();
-            return nextMove;
-        }else{
-            transition();
-            return nextMove;
+        logger.info("123pfwf3241h" + nextMove);
+        if(!nextMove.equals("hold")){  
+            logger.info("123123532g23gw43gh" + nextMove);
+            // move this transition into drone.update
         }
+        return nextMove;
 
     }
+
+
+
+    public String temp(){
+        String nextMove = getNextMove();
+        transition();
+        if(nextMove.equals("hold")){ 
+            logger.info("123pfwf3241h" + nextMove);
+            nextMove = getNextMove();
+
+        }
+        return nextMove;
+    }
     
-    private void transition() {
+    public void transition() {
         String nextString = context.getNextState();
+        logger.info("1231h" + context.getNextState());
         State next = null;
 
         switch(nextString){
-            case "state1":
+            case "State1":
                 next = state1;
-            case "state2":
+            case "StateFirstEchoAnalyzer":
+                state2 = new StateFirstEchoAnalyzer(drone, context);
                 next = state2;
-            case "state3":
+            case "StateFlyForward":
+                state3 = new StateFlyForward(drone, context);
                 next = state3;
-            case "state4":
+            case "StateFindIslandFly":
+                state4 = new StateFindIslandFly(drone, context);
+
                 next = state4;
-            case "state5":
-                next = state5;
             default:
-                next = state6;
+                state5 = new StateFindIslandEcho(drone, context);
+                next = state5;
         }
 
         if(next != null){

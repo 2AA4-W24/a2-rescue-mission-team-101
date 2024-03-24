@@ -19,7 +19,7 @@ public class Explorer implements IExplorerRaid {
         logger.info(initializer.toString());
         drone = initializer.assembleDrone();
         logger.info("****************IN EXPLORER GOT THE NEW DRONE******************");
-
+        responseFactory = new ResponseFactory();
     }
 
     @Override
@@ -28,6 +28,7 @@ public class Explorer implements IExplorerRaid {
         String decision = drone.getNextMove();
         logger.info("****************GOT NEXT MOVE******************");
         logger.info(decision);
+        // it  transitions here
         return decision;
     }
 
@@ -36,6 +37,7 @@ public class Explorer implements IExplorerRaid {
         Response r = responseFactory.getResponse(drone.latestType(), s);
         logger.info("** Response received:\n"+r.toString());
         drone.update(r);
+        // want to transition here 
     }
 
     @Override
