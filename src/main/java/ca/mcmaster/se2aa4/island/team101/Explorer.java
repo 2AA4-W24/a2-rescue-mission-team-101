@@ -40,9 +40,8 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        logger.info("final");
         String closest = drone.getClosestCreek();
-        logger.info(closest + "final");
+        logger.info(closest);
         return closest;
     }
 

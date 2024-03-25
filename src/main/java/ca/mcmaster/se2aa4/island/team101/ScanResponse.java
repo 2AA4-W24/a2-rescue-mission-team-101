@@ -17,11 +17,6 @@ public class ScanResponse extends Response{
         this.sites = extras.optJSONArray("sites");
     }
 
-    @Override
-    public int getCost(){
-        return this.cost;
-    }
-
     public JSONArray getBiomes(){
         return this.biomes;
     }

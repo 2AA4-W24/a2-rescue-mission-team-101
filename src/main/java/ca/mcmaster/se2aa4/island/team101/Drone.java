@@ -9,7 +9,7 @@ public class Drone implements Traveler{
     private AreaMap map;
     private Response latestResponse;  
     private Compass compass;
-    private DroneController controller;
+    private Controller controller;
     private Command latestCommand;
 
     private final Logger logger = LogManager.getLogger();
