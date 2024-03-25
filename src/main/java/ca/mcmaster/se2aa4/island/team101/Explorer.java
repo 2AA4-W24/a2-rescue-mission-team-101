@@ -23,6 +23,7 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String takeDecision() {
+        logger.info(drone.getCompass().getDirection() + "Direction");
         Command decision = drone.getNextMove();
         logger.info(decision);
         // it  transitions here
@@ -39,7 +40,10 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        return "no creek found";
+        // logger.info("final");
+        // String closest = drone.getClosestCreek();
+        // logger.info(closest + "final");
+        return "BIB";
     }
 
 }
