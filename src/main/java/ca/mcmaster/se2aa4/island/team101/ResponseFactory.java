@@ -1,7 +1,6 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.StringReader;
@@ -11,7 +10,6 @@ public class ResponseFactory{
     private String status;
     private JSONObject extras;
 
-    private final Logger logger = LogManager.getLogger();
 
     
     public Response getResponse(String type, String rawData){

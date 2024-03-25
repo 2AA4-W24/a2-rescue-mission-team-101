@@ -1,9 +1,7 @@
 package ca.mcmaster.se2aa4.island.team101;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public abstract class State{
-    private final Logger logger = LogManager.getLogger();
 
     protected Command command;
     protected Compass compass;

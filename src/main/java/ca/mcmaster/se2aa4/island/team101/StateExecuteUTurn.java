@@ -6,13 +6,9 @@ package ca.mcmaster.se2aa4.island.team101;
 
 import javax.naming.Context;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class StateExecuteUTurn extends State{
     
-    private final Logger logger = LogManager.getLogger();
-
     public StateExecuteUTurn(Drone drone, DroneContext context){ 
         super(drone, context); 
     }
@@ -20,7 +16,6 @@ public class StateExecuteUTurn extends State{
     @Override
     public Command getNextMove(){
         this.command = new Command();
-        logger.info("U TURN STAGE: !!! " + context.uTurnStage);
         if (!context.lastTurnRight){
             if (context.uTurnStage == 0){
                 compass.turnRight();

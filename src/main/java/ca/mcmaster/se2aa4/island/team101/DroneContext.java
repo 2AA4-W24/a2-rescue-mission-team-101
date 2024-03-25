@@ -1,13 +1,11 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public class DroneContext implements Context{
 
     private State droneState;
 
-    private final Logger logger = LogManager.getLogger();
 
     // make getters and setters instead of public once you know which ones to keep and which to kill
     public int distanceToEdge = 0, eta = 0, scanCount = 0, turn = 0, stage = 0, edge = 0, distanceToLand = 0, uTurnStage = 0;

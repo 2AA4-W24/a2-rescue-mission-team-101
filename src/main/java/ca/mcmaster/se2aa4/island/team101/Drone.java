@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.island.team101;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Drone implements Traveler{
 
@@ -12,7 +10,6 @@ public class Drone implements Traveler{
     private Controller controller;
     private Command latestCommand;
 
-    private final Logger logger = LogManager.getLogger();
 
     public Drone(Integer charge, AreaMap map, Compass compass){
         this.charge = charge;
@@ -23,7 +20,6 @@ public class Drone implements Traveler{
 
     @Override
     public void update(Response response){
-        logger.info("RESPONSE in update" );
         latestResponse = response;
         map.updateMap(compass.getPosition(), response, latestCommand);
         setCharge(response.getCost());

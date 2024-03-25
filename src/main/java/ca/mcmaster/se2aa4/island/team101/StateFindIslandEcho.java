@@ -4,12 +4,10 @@
 
 package ca.mcmaster.se2aa4.island.team101;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public class StateFindIslandEcho extends State{
     
-    private final Logger logger = LogManager.getLogger();
     private EchoResponse latestEcho;
     private String found;
     private int range;
@@ -27,7 +25,6 @@ public class StateFindIslandEcho extends State{
         this.command = new Command();
 
         if (context.left){
-            logger.info("********************** LAST ECHO WAS LEFT ECHO");
             if (found.equals("GROUND")){ // this will always be false for the first echo
                 compass.turnLeft();
                 command.heading(compass.getDirection());
@@ -41,7 +38,6 @@ public class StateFindIslandEcho extends State{
 
         
         if (!context.left){
-            logger.info("********************** LAST ECHO WAS RIGHT ECHO");
             if (found.equals("GROUND")){
                 compass.turnRight();
                 command.heading(compass.getDirection());
@@ -64,7 +60,6 @@ public class StateFindIslandEcho extends State{
             return "StateFlyForward";
         } else {
             context.edge = range;
-            logger.info("TRANSITION INTO FLY");
             return "StateFindIslandFly";
         }
     }

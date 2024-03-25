@@ -1,13 +1,11 @@
 package ca.mcmaster.se2aa4.island.team101;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 public class DroneController implements Controller{
 
     private DroneContext context;
     private Drone drone;
     private State state1, state2, state3, state4, state5, state6, state7, state8, state9, state10, state11, state12, state13, state14, state15;
-    private final Logger logger = LogManager.getLogger();
 
     public DroneController(Drone drone) {
         state1 = new State1(drone, context);
@@ -27,11 +25,9 @@ public class DroneController implements Controller{
     public void transition() {
         String nextString = context.getNextState();
         State next = null;
-        logger.info("NEXT STATE : " + nextString);
-        logger.info("BATTERY : " + drone.getCharge());
+
 
         if (drone.getCharge() < 75){
-            logger.info(drone.getCharge() < 75);
             next = new StateGoHome(drone, context);
         } else {
             switch(nextString){

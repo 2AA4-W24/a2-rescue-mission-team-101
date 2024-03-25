@@ -4,12 +4,8 @@
 
 package ca.mcmaster.se2aa4.island.team101;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class StateUTurnEchoAnalyzer2 extends State{
     
-    private final Logger logger = LogManager.getLogger();
     private EchoResponse latestEcho;
     private String found;
     private int range;

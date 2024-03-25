@@ -1,10 +1,8 @@
 package ca.mcmaster.se2aa4.island.team101;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.json.JSONArray;
 
 public class Tile {
-    private final Logger logger = LogManager.getLogger();
 
     private String creekID;
     private String siteID;

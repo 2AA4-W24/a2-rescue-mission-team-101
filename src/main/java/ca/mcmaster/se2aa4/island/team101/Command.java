@@ -7,7 +7,8 @@ public class Command implements CommandReceiver{
 
     private JSONObject command = new JSONObject();
     private JSONObject parameters = new JSONObject();
-
+    
+    // empty constructor
     public Command(){}
 
     // Ex. { "action": "fly" }
