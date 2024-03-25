@@ -38,6 +38,7 @@ public class StateSpecialUTurn extends State{
                 return command;
             }
             else if (context.uTurnStage == 2){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
@@ -49,16 +50,19 @@ public class StateSpecialUTurn extends State{
                 return command;
             }
             else if (context.uTurnStage == 4){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
             }  
             else if (context.uTurnStage == 5){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
             }  
             else if (context.uTurnStage == 6){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
@@ -92,6 +96,7 @@ public class StateSpecialUTurn extends State{
                 return command;
             }
             else if (context.uTurnStage == 2){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
@@ -103,11 +108,13 @@ public class StateSpecialUTurn extends State{
                 return command;
             }
             else if (context.uTurnStage == 4){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;
             }  
             else if (context.uTurnStage == 5){
+                compass.advance();
                 command.fly();
                 context.uTurnStage++;
                 return command;

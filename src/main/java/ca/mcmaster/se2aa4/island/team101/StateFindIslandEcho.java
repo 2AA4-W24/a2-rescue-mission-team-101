@@ -32,6 +32,7 @@ public class StateFindIslandEcho extends State{
                 compass.turnLeft();
                 command.heading(compass.getDirection());
             } else {
+                compass.advance();
                 command.fly();
                 context.distanceToEdge--;
             }
@@ -45,6 +46,7 @@ public class StateFindIslandEcho extends State{
                 compass.turnRight();
                 command.heading(compass.getDirection());
             } else {
+                compass.advance();
                 command.fly();
                 context.distanceToEdge--;
             }

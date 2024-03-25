@@ -15,7 +15,6 @@ public class Tile {
     }
 
     public String getCreekID(){
-        logger.info(creekID + "creek id");
         return creekID;
     }
 

@@ -25,7 +25,7 @@ public class Drone implements Traveler{
     public void update(Response response){
         logger.info("RESPONSE in update" );
         latestResponse = response;
-        map.updateMap(compass.getPosition(), response);
+        map.updateMap(compass.getPosition(), response, latestCommand);
         setCharge(response.getCost());
         controller.transition();
 

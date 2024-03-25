@@ -6,5 +6,4 @@ public class CommandStrings {
     public static final String HEADING = "heading";
     public static final String ECHO = "echo";
     public static final String SCAN = "scan";
-    public static final String HOLD = "hold";
 }

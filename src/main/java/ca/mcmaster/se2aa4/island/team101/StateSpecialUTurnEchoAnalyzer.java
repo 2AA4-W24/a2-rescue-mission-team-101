@@ -22,6 +22,7 @@ public class StateSpecialUTurnEchoAnalyzer extends State{
     @Override
     public Command getNextMove(){
         this.command = new Command();
+        compass.advance();
         command.fly();
         context.distanceToLand = range;
         return command;

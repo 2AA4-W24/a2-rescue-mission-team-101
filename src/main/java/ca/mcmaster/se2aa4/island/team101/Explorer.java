@@ -43,7 +43,7 @@ public class Explorer implements IExplorerRaid {
         logger.info("final");
         String closest = drone.getClosestCreek();
         logger.info(closest + "final");
-        return "BIB";
+        return closest;
     }
 
 }

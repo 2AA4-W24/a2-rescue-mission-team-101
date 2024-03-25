@@ -18,6 +18,7 @@ public class StateFlyForward extends State{
     @Override
     public Command getNextMove(){
         this.command = new Command();
+        compass.advance();
         command.fly();
         context.distanceToLand --;
         return command;

@@ -3,7 +3,9 @@ import java.lang.Math;
 import java.util.List; 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.awt.Point;
+import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,69 +14,44 @@ public class AreaMap {
 
     private Point emergencyPoint;
 
-    List<String> rows = new ArrayList<String>();
-    HashMap<Point, Tile> map;
+    private Map<Point, String> creekMap;
     
     public AreaMap(){
-        map = new HashMap<>();
+        creekMap = new HashMap<Point, String>();
     }
 
-    private void addTile(Point p, Tile tile) {
-        map.put(p, tile);
-    }
-
-    public Tile getTile(Point p) {
-        return map.get(p);
-    }
-
-    public void updateMap(Point currentPosition, Response response){
-        String type = response.getType();
+    public void updateMap(Point currentPosition, Response response, Command latestCommand){
+        String type = latestCommand.getType();
         if(type.equals("scan")){
+            ScanResponse scanResponse = (ScanResponse)response;
             Tile tile = new Tile();
             tile.fillTile((ScanResponse)response);
-            addTile(currentPosition, tile);
-            if (tile.getSiteID() != null){
-                logger.info(tile.getSiteID() + "site id");
+            if ((scanResponse.getCreeks().length()) > 0){
+                logger.info(tile.getCreekID() + "creek id" + currentPosition);
+                creekMap.put(currentPosition, tile.getCreekID());
+                logger.info((Arrays.asList(creekMap)) + "creekmap");
             }
             if (tile.getSiteID() != null){
+                logger.info(tile.getSiteID() + "site id" + currentPosition);
                 emergencyPoint = currentPosition;
             }
         }
     }
 
     public String findClosestCreek(){
+        logger.info((Arrays.asList(creekMap)));
 
-        Point closestInlet = new Point();
+        for (Point p : creekMap.keySet()){
+            logger.info(p + "point of creek");
+        }
+        Point closestInlet = new Point(0,0);
         double minDist = 100000, distx, disty, calc_dist;
         if (emergencyPoint == null){
             return "nothing";
         }
-        for (HashMap.Entry<Point, Tile> entry : map.entrySet()){
-            Point key = entry.getKey();
-            Tile tile = entry.getValue();
-            if (tile != null){
 
-                
-                if (!(tile.getCreekID() == (null))){
-                    logger.info("in closest creek" + emergencyPoint.getX());
-                    distx = emergencyPoint.getX() - key.getX();
-                    disty = emergencyPoint.getY() - key.getY();
-                    calc_dist = Math.pow((Math.pow(distx, 2) + Math.pow(disty, 2)), 0.5);
-                    logger.info("in closest creek");
-    
-                    if (calc_dist <= minDist){
-                        minDist = calc_dist;
-                        closestInlet = key;
-                    }
-                }
-                logger.info("in closest creek");
-            }
-
-
-        }
+        // find the closest creek using the creekmap
         // case where no closest creek is found is NOT ACCOUNTED FOR (i.e. closestInlet is null)
-        return map.get(closestInlet).getCreekID();
+        return creekMap.get(0);
     }
-
-    // return cleost creek use pytehon throem
 }

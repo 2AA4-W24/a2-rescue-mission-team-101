@@ -26,6 +26,7 @@ public class StateCreekSearchScan extends State{
     public Command getNextMove(){
         this.command = new Command();
         logger.info(onlyOcean + " CONTEXT LEFT");
+        compass.advance();
         command.fly();
         return command;
 

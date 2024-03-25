@@ -1,9 +1,12 @@
 package ca.mcmaster.se2aa4.island.team101;
 import java.awt.Point;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Compass {
     private String direction;
     private Point position;
+    private final Logger logger = LogManager.getLogger();
 
     protected static final String NORTH = "N";
     protected static final String EAST = "E";
@@ -99,6 +102,7 @@ public class Compass {
     }
 
     public Point getPosition(){
+        logger.info(position + "position");
         return position;
     }
 

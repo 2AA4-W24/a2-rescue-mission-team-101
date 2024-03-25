@@ -24,6 +24,7 @@ public class StateUTurnEchoAnalyzer1 extends State{
     @Override
     public Command getNextMove(){
         this.command = new Command();
+        compass.advance();
         command.fly();
         return command;
 
