@@ -15,7 +15,7 @@ public class Explorer implements IExplorerRaid {
     @Override
     public void initialize(String s) {
         logger.info(" Initializing the Exploration Command Center");
-        initializer = Initializer.getInstance(s); // Use singleton instance of initializer
+        initializer = new Initializer(s);
         logger.info(initializer.toString());
         drone = initializer.assembleDrone();
         responseFactory = new ResponseFactory();
@@ -40,9 +40,9 @@ public class Explorer implements IExplorerRaid {
 
     @Override
     public String deliverFinalReport() {
-        // logger.info("final");
-        // String closest = drone.getClosestCreek();
-        // logger.info(closest + "final");
+        logger.info("final");
+        String closest = drone.getClosestCreek();
+        logger.info(closest + "final");
         return "BIB";
     }
 

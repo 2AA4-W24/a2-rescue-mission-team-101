@@ -33,7 +33,9 @@ public class AreaMap {
             Tile tile = new Tile();
             tile.fillTile((ScanResponse)response);
             addTile(currentPosition, tile);
-            logger.info(tile.getSiteID() + "site id");
+            if (tile.getSiteID() != null){
+                logger.info(tile.getSiteID() + "site id");
+            }
             if (tile.getSiteID() != null){
                 emergencyPoint = currentPosition;
             }
