@@ -2,7 +2,7 @@ package ca.mcmaster.se2aa4.island.team101;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class DroneController {
+public class DroneController implements Controller{
 
     private DroneContext context;
     private Drone drone;
@@ -16,13 +16,14 @@ public class DroneController {
         context.setState(state1);
     }
 
+    @Override
     public Command getNextMove() {
         Command nextMove = context.getNextMove();
         return nextMove;
 
     }
 
-    
+    @Override
     public void transition() {
         String nextString = context.getNextState();
         State next = null;
