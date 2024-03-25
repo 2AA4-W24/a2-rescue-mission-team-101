@@ -31,13 +31,17 @@ public class StateUTurnEchoAnalyzer1 extends State{
 
     @Override
     public String getNextState(){
-        this.command = new Command();
 
         if (found.equals("GROUND")){
             context.distanceToLand = range;
             return "StateFlyForward";
         } else {
-            return "StateExecuteUTurn";
+            context.distanceToEdge = range;
+            if (range > 2){
+                return "StateExecuteUTurn";
+            } else {
+                return "StateGoHome";
+            }
         }
     }
 

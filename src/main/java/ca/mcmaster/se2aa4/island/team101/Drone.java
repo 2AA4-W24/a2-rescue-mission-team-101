@@ -23,7 +23,7 @@ public class Drone implements Traveler{
 
     @Override
     public void update(Response response){
-        logger.info("RESPONSE " + latestResponse);
+        logger.info("RESPONSE in update" );
         latestResponse = response;
         map.updateMap(compass.getPosition(), response);
         setCharge(response.getCost());
@@ -57,7 +57,14 @@ public class Drone implements Traveler{
 
     private void setCharge(Integer cost) {
         charge -= cost;
-        if (charge <= 0) charge = 0;
+    }
+
+    public Integer getCharge(){
+        return charge;
+    }
+
+    public String getClosestCreek(){
+        return map.findClosestCreek();
     }
 
 }
